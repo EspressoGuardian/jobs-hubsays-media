@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hubsays Live + Work Map</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      "name": "Hubsays Live + Work Index 2026",
+      "description": "A privacy-first static index comparing European cities and countries for international work-and-relocation decisions.",
+      "creator": {
+        "@type": "Organization",
+        "name": "Hubsays"
+      },
+      "temporalCoverage": "2026",
+      "spatialCoverage": {
+        "@type": "Place",
+        "name": "Europe"
+      },
+      "license": "Private preview only"
+    }
+  </script>
+</head>
+<body>
+  <main>
+    <section class="notice-strip panel">
+      <div>
+        <strong>Private preview:</strong> This MVP is a navigation layer, not a recruitment agency.
+        It is designed around direct-source links, AI-assisted summaries with human review, and a
+        low-data posture.
+      </div>
+      <a class="notice-link" href="./pages/transparency.html">How it works</a>
+    </section>
+
+    <section class="hero panel">
+      <div class="eyebrow">Local MVP preview</div>
+      <h1>Hubsays Live + Work Map</h1>
+      <p class="lede">
+        Find where internationals can realistically live and work, starting with English-friendly
+        and visa-aware roles in the Netherlands, then widening into Europe with city-level housing
+        pressure and relocation signals.
+      </p>
+      <nav class="nav-links" aria-label="Preview policy links">
+        <a href="./pages/about.html">About</a>
+        <a href="./index-2026.html">Index 2026</a>
+        <a href="./pages/methodology.html">Methodology</a>
+        <a href="./pages/faq.html">FAQ</a>
+        <a href="./pages/trust.html">Trust</a>
+        <a href="./pages/transparency.html">Transparency</a>
+        <a href="./pages/data-sources.html">Data sources</a>
+        <a href="./pages/launch-slate.html">Launch slate</a>
+        <a href="./pages/affiliate-disclosure.html">Disclosure</a>
+        <a href="./pages/privacy.html">Privacy</a>
+        <a href="./pages/terms.html">Terms</a>
+        <a href="./pages/contact.html">Contact</a>
+      </nav>
+      <div class="hero-grid">
+        <div>
+          <div class="metric" id="job-count">0</div>
+          <p class="footnote">jobs in current filtered view</p>
+        </div>
+        <div>
+          <div class="metric" id="country-count">0</div>
+          <p class="footnote">countries covered</p>
+        </div>
+        <div>
+          <div class="metric" id="language-count">0</div>
+          <p class="footnote">language tracks</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Hubsays Live + Work Index 2026</h2>
+        <div class="footnote" id="index-version">2026-v1</div>
+      </div>
+      <p class="lede">
+        This preview is now structured as a citeable index, not just a map UI. The current version
+        locks a small city and country model for English-friendly and relocation-aware decision support.
+      </p>
+      <div class="index-grid">
+        <article class="job-card">
+          <h3>Top city</h3>
+          <p id="index-top-city">Loading…</p>
+        </article>
+        <article class="job-card">
+          <h3>Top country</h3>
+          <p id="index-top-country">Loading…</p>
+        </article>
+        <article class="job-card">
+          <h3>Current model</h3>
+          <p id="index-data-model">Loading…</p>
+        </article>
+      </div>
+      <div class="action-list">
+        <a class="action-link" href="./index-2026.html">Open index overview</a>
+        <a class="action-link" href="./pages/methodology.html">Read methodology</a>
+        <a class="action-link" href="./pages/faq.html">Read FAQ</a>
+        <a class="action-link" href="./pages/data-sources.html">Review sources</a>
+        <a class="action-link" href="./pages/launch-slate.html">See the 30-city launch slate</a>
+      </div>
+      <div class="citation-block">
+        <strong>Cite this preview as:</strong> Hubsays, <em>Live + Work Index 2026 (private preview)</em>,
+        accessed March 12, 2026.
+      </div>
+    </section>
+
+    <section class="panel filters">
+      <div class="panel-head">
+        <h2>Search Tracks</h2>
+        <div class="footnote">One-click niche presets for the first commercial clusters</div>
+      </div>
+      <div class="preset-grid" id="preset-grid">
+        <button type="button" class="preset-button" data-preset="nl-live-work">Live + Work Netherlands</button>
+        <button type="button" class="preset-button" data-preset="nl-english">English Speaking Jobs Netherlands</button>
+        <button type="button" class="preset-button" data-preset="nl-visa">Visa-Sponsored Jobs Netherlands</button>
+        <button type="button" class="preset-button" data-preset="eu-english">English Speaking Jobs EU</button>
+        <button type="button" class="preset-button" data-preset="expat">English Speaking Expat Jobs</button>
+        <button type="button" class="preset-button" data-preset="ai-radar">AI Hiring Radar</button>
+        <button type="button" class="preset-button" data-preset="it-italian">Italian Speaking Jobs</button>
+        <button type="button" class="preset-button" data-preset="de-german">German Speaking Jobs</button>
+        <button type="button" class="preset-button" data-preset="all">Show everything</button>
+      </div>
+    </section>
+
+    <section class="panel filters">
+      <h2>Filters</h2>
+      <div class="filter-grid">
+        <label>
+          <span>Country</span>
+          <select id="country-filter"></select>
+        </label>
+        <label>
+          <span>City</span>
+          <select id="city-filter"></select>
+        </label>
+        <label>
+          <span>Language</span>
+          <select id="language-filter"></select>
+        </label>
+        <label>
+          <span>Work mode</span>
+          <select id="mode-filter"></select>
+        </label>
+        <label>
+          <span>Category</span>
+          <select id="category-filter"></select>
+        </label>
+        <label>
+          <span>Visa path</span>
+          <select id="visa-filter"></select>
+        </label>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Live + Work Signals</h2>
+        <div class="footnote">City-level relocation intelligence only. No live housing listings yet.</div>
+      </div>
+      <div class="city-grid" id="city-grid"></div>
+      <div class="micro-note" id="city-summary">
+        This layer is the first step beyond a generic job board: where the jobs are, what housing pressure looks like,
+        and which cities are realistic for English-speaking relocation.
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Decision Desk</h2>
+        <div class="footnote">Zero-party preferences only. Saved locally in the browser, not on a server.</div>
+      </div>
+      <div class="decision-grid">
+        <div class="decision-controls">
+          <label>
+            <span>Job density</span>
+            <input id="weight-jobs" type="range" min="0" max="10" value="8" />
+          </label>
+          <label>
+            <span>Housing affordability</span>
+            <input id="weight-housing" type="range" min="0" max="10" value="8" />
+          </label>
+          <label>
+            <span>English accessibility</span>
+            <input id="weight-english" type="range" min="0" max="10" value="7" />
+          </label>
+          <label>
+            <span>Visa realism</span>
+            <input id="weight-visa" type="range" min="0" max="10" value="7" />
+          </label>
+        </div>
+        <div>
+          <div class="decision-results" id="decision-results"></div>
+          <div class="micro-note">
+            This is the first “why should I move here?” layer. It ranks cities by weighted relocation fit,
+            not by generic popularity, and it keeps the state local-only on your device.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="layout">
+      <section class="panel map-panel">
+        <div class="panel-head">
+          <h2>Jobs Map</h2>
+          <div class="stamp" id="updated-at"></div>
+        </div>
+        <div class="map-shell">
+          <div class="map-background"></div>
+          <div class="map-bounds" id="map-bounds"></div>
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <section class="panel">
+          <h2>Selected Role</h2>
+          <div id="selected-role" class="selected-role"></div>
+        </section>
+
+        <section class="panel">
+          <h2>Low-Risk Launch Rules</h2>
+          <ul>
+            <li>No user accounts, no resume uploads, no saved-job backend, and no email capture in v1.</li>
+            <li>Show metadata and short expat snapshots only, not copied full job descriptions.</li>
+            <li>Public apply actions should go straight to the employer or official source.</li>
+            <li>Visa and language signals are guidance only, never guarantees.</li>
+            <li>Correction and removal handling should stay visible from day one.</li>
+          </ul>
+        </section>
+
+        <section class="panel">
+          <h2>Public Launch Recommendation</h2>
+          <ul>
+            <li>Keep this private/local until the operator approves the public brand and data pipeline.</li>
+            <li>Fastest public route: <strong>jobs.hubsays.media</strong> after review.</li>
+            <li>Keep <strong>hubsays.com</strong> personal and non-product-facing.</li>
+            <li>Move to a standalone jobs brand later only if the product earns a clean spin-out.</li>
+            <li>Monetize with affiliate offers first, then consider ads later.</li>
+          </ul>
+        </section>
+
+        <section class="panel">
+          <h2>Why This Niche</h2>
+          <ul>
+            <li>English-speaking jobs in the Netherlands and EU have clear expat demand.</li>
+            <li>Visa-sponsored and HSM-likely roles solve a sharper problem than generic “jobs in Europe” pages.</li>
+            <li>Language-specific pages create stronger intent than generic “jobs in Europe” content.</li>
+            <li>Map plus filters is more useful than another giant listicle.</li>
+          </ul>
+        </section>
+
+        <section class="panel">
+          <h2>Next Expansion Layers</h2>
+          <div class="stack stack-cards">
+            <article class="card">
+              <h3>Homes Layer</h3>
+              <p>Stay city-level first: rent pressure, buy pressure, and affordability signals. Add individual listings only after the jobs and legal source posture are stable.</p>
+            </article>
+            <article class="card">
+              <h3>Move Score</h3>
+              <p>Score cities by job density, rent pressure, language friendliness, and visa realism so the product answers “should I move here?” not just “what jobs exist?”.</p>
+            </article>
+            <article class="card">
+              <h3>AI Hiring Radar</h3>
+              <p>Second-wave layer for AI companies, ML engineering roles, AI product jobs, and hiring hotspots once the core Netherlands and Europe jobs wedge is stable.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Trust And Legality</h2>
+          <ul>
+            <li>Phase 1 uses jobs only, not republished company news.</li>
+            <li>Housing in this preview is city-level signal data only, not scraped listing inventory.</li>
+            <li>Public ingest should start from official career pages, approved APIs, and permitted feeds.</li>
+            <li>Do not scrape LinkedIn or copy full job descriptions at scale.</li>
+            <li>Preview mode stays tracker-free; any future ads or tracking stay behind consent.</li>
+            <li>Do not process recruiter names, resumes, or candidate profiles into your own database.</li>
+          </ul>
+        </section>
+
+        <section class="panel">
+          <h2>Affiliate Lanes</h2>
+          <div class="stack stack-cards">
+            <article class="card">
+              <h3>Resume builders</h3>
+              <p>Best for first-time expat applicants and ATS-heavy roles.</p>
+            </article>
+            <article class="card">
+              <h3>Resume tailoring tools</h3>
+              <p>Best when users already have a CV and want faster role matching.</p>
+            </article>
+            <article class="card">
+              <h3>Interview prep copilots</h3>
+              <p>Natural second-step cross-sell once the job shortlist is clear.</p>
+            </article>
+            <article class="card">
+              <h3>Remote-first job boards</h3>
+              <p>Useful adjacent lane once the country or language cluster is chosen.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Company And Market Layer</h2>
+          <div class="stack stack-cards">
+            <article class="card">
+              <h3>Phase 1</h3>
+              <p>Jobs only, source-first, clear last-verified posture, no company-news ingestion required.</p>
+            </article>
+            <article class="card">
+              <h3>Phase 2</h3>
+              <p>Add company profile links and official newsroom/career links for context.</p>
+            </article>
+            <article class="card">
+              <h3>Phase 3</h3>
+              <p>Add licensed or clearly permitted news summaries only if they improve job decisions.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Free Starter Templates</h2>
+          <ul class="template-links">
+            <li><a href="./assets/resume-template-product-manager.md">Product manager CV template</a></li>
+            <li><a href="./assets/resume-template-software-engineer.md">Software engineer CV template</a></li>
+          </ul>
+        </section>
+      </aside>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>City vs City Workbench</h2>
+        <div class="footnote">Programmatic compare-page engine preview with rent-adjusted salary snapshots and contextual next-step tools.</div>
+      </div>
+      <div class="compare-controls">
+        <label>
+          <span>City A</span>
+          <select id="compare-city-a"></select>
+        </label>
+        <label>
+          <span>City B</span>
+          <select id="compare-city-b"></select>
+        </label>
+        <label>
+          <span>Role lens</span>
+          <select id="compare-role">
+            <option value="All">All roles</option>
+            <option value="AI / Data / Engineering">AI / Data / Engineering</option>
+            <option value="Product">Product</option>
+            <option value="Operations">Operations</option>
+          </select>
+        </label>
+      </div>
+      <div class="compare-summary" id="compare-summary"></div>
+      <div class="compare-grid" id="compare-grid"></div>
+      <div class="compare-ppp" id="compare-ppp"></div>
+      <div class="compare-partner" id="compare-partner"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>First Compare Pages</h2>
+        <div class="footnote">Static compare pages first, full generated compare engine later.</div>
+      </div>
+      <div class="job-list">
+        <article class="job-card">
+          <div class="eyebrow">City vs City</div>
+          <h3>Amsterdam vs Berlin</h3>
+          <p>English-speaking tech workers, salary pressure, rent pressure, and English-first hiring fit.</p>
+          <div class="action-list">
+            <a class="action-link" href="./compare/cities/amsterdam-nl-vs-berlin-de.html">Open compare page</a>
+          </div>
+        </article>
+        <article class="job-card">
+          <div class="eyebrow">City vs City</div>
+          <h3>Eindhoven vs Berlin</h3>
+          <p>Deep-tech and AI relocation wedge with a more realistic cost profile than Amsterdam.</p>
+          <div class="action-list">
+            <a class="action-link" href="./compare/cities/eindhoven-nl-vs-berlin-de.html">Open compare page</a>
+          </div>
+        </article>
+        <article class="job-card">
+          <div class="eyebrow">Country vs Country</div>
+          <h3>Netherlands vs Germany</h3>
+          <p>Macro view for English-speaking professionals before drilling back down to cities.</p>
+          <div class="action-list">
+            <a class="action-link" href="./compare/countries/nl-vs-de.html">Open compare page</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Filtered Roles</h2>
+        <div class="footnote" id="result-summary"></div>
+      </div>
+      <div class="job-list" id="job-list"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Partner Tools And Revenue Posture</h2>
+        <div class="footnote">Affiliate-first and sponsorship-later. No display ads in this preview.</div>
+      </div>
+      <div class="job-list" id="partner-grid"></div>
+      <div class="job-list">
+        <article class="job-card">
+          <h3>Monetization order</h3>
+          <p>Affiliate links and free templates first. Keep AdSense off by default so the product stays fast, tracker-light, and less exposed to programmatic-SEO quality hits.</p>
+        </article>
+        <article class="job-card">
+          <h3>Analytics</h3>
+          <p>PostHog remains off in local preview. If enabled later, start with event-only analytics and no replay.</p>
+        </article>
+        <article class="job-card">
+          <h3>Cookie banner</h3>
+          <p>A simple first-party banner is enough for a tracker-light MVP. EEA AdSense requires the certified consent path.</p>
+        </article>
+        <article class="job-card">
+          <h3>Live + work positioning</h3>
+          <p>Differentiate from Google Maps by scoring relocation decisions, not by trying to index every restaurant, shop, or place pin.</p>
+        </article>
+        <article class="job-card">
+          <h3>Individual liability posture</h3>
+          <p>
+            Lowest-risk public launch is an informational jobs navigator: no user accounts, no CV intake,
+            direct employer apply links, and business-specific insurance confirmed in writing.
+          </p>
+        </article>
+      </div>
+    </section>
+    <footer class="panel footer-panel">
+      <div class="footnote">Private local preview only. Review the trust, data-source, disclosure, privacy, and terms pages before any public launch.</div>
+      <nav class="footer-links" aria-label="Footer policy links">
+        <a href="./pages/about.html">About</a>
+        <a href="./index-2026.html">Index 2026</a>
+        <a href="./pages/methodology.html">Methodology</a>
+        <a href="./pages/faq.html">FAQ</a>
+        <a href="./pages/trust.html">Trust</a>
+        <a href="./pages/transparency.html">Transparency</a>
+        <a href="./pages/data-sources.html">Data sources</a>
+        <a href="./pages/affiliate-disclosure.html">Disclosure</a>
+        <a href="./pages/privacy.html">Privacy</a>
+        <a href="./pages/terms.html">Terms</a>
+        <a href="./pages/contact.html">Contact</a>
+      </nav>
+    </footer>
+  </main>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

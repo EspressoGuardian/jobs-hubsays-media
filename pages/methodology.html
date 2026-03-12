@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Methodology | Hubsays Live + Work Map</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <main>
+    <section class="panel page-shell">
+      <a class="back-link" href="../index.html">Back to preview</a>
+      <h1>Methodology</h1>
+      <p>
+        The Hubsays Live + Work Index is a decision-support layer for internationals. It does not rank
+        candidates, score resumes, or automate job decisions. It compares cities and countries on work,
+        housing, cost, and language signals.
+      </p>
+      <div class="method-box">
+        <h2>Current scoring pillars</h2>
+        <ul class="section-list">
+          <li><strong>Jobs:</strong> target-skill role density and visible role volume in the preview dataset.</li>
+          <li><strong>Housing:</strong> rent level and rent-to-income pressure.</li>
+          <li><strong>Cost:</strong> a city or country cost-of-living index relative to an EU baseline.</li>
+          <li><strong>Language:</strong> English-first fit in jobs plus practical daily-life accessibility.</li>
+        </ul>
+      </div>
+      <div class="method-box">
+        <h2>Data model</h2>
+        <p>The preview now locks a stable contract:</p>
+        <ul class="section-list">
+          <li><a href="../data/cities.json">cities.json</a>: identity, raw metrics, and derived scores per city</li>
+          <li><a href="../data/countries.json">countries.json</a>: macro comparison layer per country</li>
+          <li><a href="../data/jobs.json">jobs.json</a>: seeded role examples for the preview interface</li>
+        </ul>
+      </div>
+      <div class="method-box">
+        <h2>Source posture</h2>
+        <p>
+          Public launch should move from seeded preview data to governed official sources: employer career pages,
+          allowed ATS endpoints, approved partner feeds, and selected public statistics. The product should not
+          scrape LinkedIn or store copied full job descriptions at scale.
+        </p>
+      </div>
+      <div class="page-note">
+        Current version: <strong>2026-v1</strong>. Future releases should keep the contract stable and log changes
+        in a simple changelog rather than silently shifting the meaning of scores.
+      </div>
+    </section>
+  </main>
+</body>
+</html>
