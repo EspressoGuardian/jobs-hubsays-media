@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jobs.hubsays.media/sitemap.xml
+Sitemap: https://espressoguardian.github.io/jobs-hubsays-media/sitemap.xml
