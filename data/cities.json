@@ -47,7 +47,7 @@
     "housing_pressure": "Medium",
     "english_friendly": "High English fit",
     "visa_friendly": "Mixed visa signal",
-    "why_move": "Stronger operations and logistics wedge with slightly saner rent pressure than Amsterdam.",
+    "why_move": "Stronger operations and logistics fit with slightly saner rent pressure than Amsterdam.",
     "metrics": {
       "jobs_per_100k_target_skill": 122,
       "median_salary_target_skill_eur": 58500,
@@ -115,7 +115,7 @@
     "housing_pressure": "Medium",
     "english_friendly": "High English fit in tech",
     "visa_friendly": "Strong HSM / deep-tech fit",
-    "why_move": "Best current deep-tech and AI relocation wedge in this preview when cost pressure matters.",
+    "why_move": "Best current deep-tech and AI fit when cost pressure matters.",
     "metrics": {
       "jobs_per_100k_target_skill": 136,
       "median_salary_target_skill_eur": 63000,
@@ -183,7 +183,7 @@
     "housing_pressure": "Medium-high",
     "english_friendly": "Good expat fit",
     "visa_friendly": "Unknown in this dataset",
-    "why_move": "Attractive relocation city, but this preview still lacks enough role density to make it a first wedge.",
+    "why_move": "Attractive relocation city, but the current model still lacks enough role density to make it a first-choice destination.",
     "metrics": {
       "jobs_per_100k_target_skill": 90,
       "median_salary_target_skill_eur": 42000,

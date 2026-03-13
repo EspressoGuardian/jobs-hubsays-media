@@ -32,7 +32,7 @@
         It is designed around direct-source links, AI-assisted summaries with human review, and a
         low-data posture.
       </div>
-      <a class="notice-link" href="./pages/transparency.html">How it works</a>
+      <a class="notice-link" href="./pages/methodology.html">How it works</a>
     </section>
 
     <section class="hero panel">
@@ -48,14 +48,9 @@
         <a href="./index-2026.html">Index 2026</a>
         <a href="./pages/methodology.html">Methodology</a>
         <a href="./pages/faq.html">FAQ</a>
-        <a href="./pages/trust.html">Trust</a>
-        <a href="./pages/transparency.html">Transparency</a>
         <a href="./pages/data-sources.html">Data sources</a>
-        <a href="./pages/launch-slate.html">Launch slate</a>
-        <a href="./pages/affiliate-disclosure.html">Disclosure</a>
         <a href="./pages/privacy.html">Privacy</a>
         <a href="./pages/terms.html">Terms</a>
-        <a href="./pages/contact.html">Contact</a>
       </nav>
       <div class="hero-grid">
         <div>
@@ -79,7 +74,7 @@
         <div class="footnote" id="index-version">2026-v1</div>
       </div>
       <p class="lede">
-        This preview is now structured as a citeable index, not just a map UI. The current version
+        This beta is now structured as a citeable index, not just a map UI. The current version
         locks a small city and country model for English-friendly and relocation-aware decision support.
       </p>
       <div class="index-grid">
@@ -101,18 +96,17 @@
         <a class="action-link" href="./pages/methodology.html">Read methodology</a>
         <a class="action-link" href="./pages/faq.html">Read FAQ</a>
         <a class="action-link" href="./pages/data-sources.html">Review sources</a>
-        <a class="action-link" href="./pages/launch-slate.html">See the 30-city launch slate</a>
       </div>
       <div class="citation-block">
-        <strong>Cite this preview as:</strong> Hubsays, <em>Live + Work Index 2026 (private preview)</em>,
-        accessed March 12, 2026.
+        <strong>Cite this beta as:</strong> Hubsays, <em>Live + Work Index 2026 (public beta)</em>,
+        accessed March 13, 2026.
       </div>
     </section>
 
     <section class="panel filters">
       <div class="panel-head">
         <h2>Search Tracks</h2>
-        <div class="footnote">One-click niche presets for the first commercial clusters</div>
+        <div class="footnote">One-click entry points for common relocation and job-search intents</div>
       </div>
       <div class="preset-grid" id="preset-grid">
         <button type="button" class="preset-button" data-preset="nl-live-work">Live + Work Netherlands</button>
@@ -192,6 +186,41 @@
             <span>Visa realism</span>
             <input id="weight-visa" type="range" min="0" max="10" value="7" />
           </label>
+          <label>
+            <span>Salary target</span>
+            <input id="salary-target" type="range" min="35000" max="120000" step="2500" value="65000" />
+            <span class="inline-value" id="salary-target-value">EUR 65,000+</span>
+          </label>
+          <label>
+            <span>Remote preference</span>
+            <select id="remote-preference">
+              <option value="Any">Any</option>
+              <option value="Remote">Remote</option>
+              <option value="Hybrid">Hybrid</option>
+              <option value="On-site">On-site</option>
+            </select>
+          </label>
+          <label>
+            <span>Freshness filter</span>
+            <select id="freshness-window">
+              <option value="Any">Any age</option>
+              <option value="7">7 days</option>
+              <option value="14">14 days</option>
+              <option value="30">30 days</option>
+              <option value="60">60 days</option>
+            </select>
+          </label>
+          <label class="toggle-option">
+            <span>Only visa-aware roles</span>
+            <input id="visa-required" type="checkbox" />
+          </label>
+          <label class="toggle-option">
+            <span>Hide persistent listings</span>
+            <input id="hide-persistent" type="checkbox" />
+          </label>
+          <div class="micro-note" id="decision-persona-summary">
+            Personal preferences stay in this browser only.
+          </div>
         </div>
         <div>
           <div class="decision-results" id="decision-results"></div>
@@ -222,7 +251,7 @@
         </section>
 
         <section class="panel">
-          <h2>Low-Risk Launch Rules</h2>
+          <h2>How This Beta Works</h2>
           <ul>
             <li>No user accounts, no resume uploads, no saved-job backend, and no email capture in v1.</li>
             <li>Show metadata and short expat snapshots only, not copied full job descriptions.</li>
@@ -230,97 +259,6 @@
             <li>Visa and language signals are guidance only, never guarantees.</li>
             <li>Correction and removal handling should stay visible from day one.</li>
           </ul>
-        </section>
-
-        <section class="panel">
-          <h2>Public Launch Recommendation</h2>
-          <ul>
-            <li>Public beta is live on GitHub Pages while the custom-domain path is finalized.</li>
-            <li>Target custom domain remains <strong>jobs.hubsays.media</strong> once the Cloudflare zone and token path are aligned.</li>
-            <li>Keep <strong>hubsays.com</strong> personal and non-product-facing.</li>
-            <li>Move to a standalone jobs brand later only if the product earns a clean spin-out.</li>
-            <li>Monetize with affiliate offers first, then consider ads later.</li>
-          </ul>
-        </section>
-
-        <section class="panel">
-          <h2>Why This Niche</h2>
-          <ul>
-            <li>English-speaking jobs in the Netherlands and EU have clear expat demand.</li>
-            <li>Visa-sponsored and HSM-likely roles solve a sharper problem than generic “jobs in Europe” pages.</li>
-            <li>Language-specific pages create stronger intent than generic “jobs in Europe” content.</li>
-            <li>Map plus filters is more useful than another giant listicle.</li>
-          </ul>
-        </section>
-
-        <section class="panel">
-          <h2>Next Expansion Layers</h2>
-          <div class="stack stack-cards">
-            <article class="card">
-              <h3>Homes Layer</h3>
-              <p>Stay city-level first: rent pressure, buy pressure, and affordability signals. Add individual listings only after the jobs and legal source posture are stable.</p>
-            </article>
-            <article class="card">
-              <h3>Move Score</h3>
-              <p>Score cities by job density, rent pressure, language friendliness, and visa realism so the product answers “should I move here?” not just “what jobs exist?”.</p>
-            </article>
-            <article class="card">
-              <h3>AI Hiring Radar</h3>
-              <p>Second-wave layer for AI companies, ML engineering roles, AI product jobs, and hiring hotspots once the core Netherlands and Europe jobs wedge is stable.</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="panel">
-          <h2>Trust And Legality</h2>
-          <ul>
-            <li>Phase 1 uses jobs only, not republished company news.</li>
-            <li>Housing in this preview is city-level signal data only, not scraped listing inventory.</li>
-            <li>Public ingest should start from official career pages, approved APIs, and permitted feeds.</li>
-            <li>Do not scrape LinkedIn or copy full job descriptions at scale.</li>
-            <li>Preview mode stays tracker-free; any future ads or tracking stay behind consent.</li>
-            <li>Do not process recruiter names, resumes, or candidate profiles into your own database.</li>
-          </ul>
-        </section>
-
-        <section class="panel">
-          <h2>Affiliate Lanes</h2>
-          <div class="stack stack-cards">
-            <article class="card">
-              <h3>Resume builders</h3>
-              <p>Best for first-time expat applicants and ATS-heavy roles.</p>
-            </article>
-            <article class="card">
-              <h3>Resume tailoring tools</h3>
-              <p>Best when users already have a CV and want faster role matching.</p>
-            </article>
-            <article class="card">
-              <h3>Interview prep copilots</h3>
-              <p>Natural second-step cross-sell once the job shortlist is clear.</p>
-            </article>
-            <article class="card">
-              <h3>Remote-first job boards</h3>
-              <p>Useful adjacent lane once the country or language cluster is chosen.</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="panel">
-          <h2>Company And Market Layer</h2>
-          <div class="stack stack-cards">
-            <article class="card">
-              <h3>Phase 1</h3>
-              <p>Jobs only, source-first, clear last-verified posture, no company-news ingestion required.</p>
-            </article>
-            <article class="card">
-              <h3>Phase 2</h3>
-              <p>Add company profile links and official newsroom/career links for context.</p>
-            </article>
-            <article class="card">
-              <h3>Phase 3</h3>
-              <p>Add licensed or clearly permitted news summaries only if they improve job decisions.</p>
-            </article>
-          </div>
         </section>
 
         <section class="panel">
@@ -336,7 +274,7 @@
     <section class="panel">
       <div class="panel-head">
         <h2>City vs City Workbench</h2>
-        <div class="footnote">Programmatic compare-page engine preview with rent-adjusted salary snapshots and contextual next-step tools.</div>
+        <div class="footnote">Structured compare pages with rent-adjusted salary snapshots and relocation context.</div>
       </div>
       <div class="compare-controls">
         <label>
@@ -360,7 +298,6 @@
       <div class="compare-summary" id="compare-summary"></div>
       <div class="compare-grid" id="compare-grid"></div>
       <div class="compare-ppp" id="compare-ppp"></div>
-      <div class="compare-partner" id="compare-partner"></div>
     </section>
 
     <section class="panel">
@@ -380,7 +317,7 @@
         <article class="job-card">
           <div class="eyebrow">City vs City</div>
           <h3>Eindhoven vs Berlin</h3>
-          <p>Deep-tech and AI relocation wedge with a more realistic cost profile than Amsterdam.</p>
+          <p>Deep-tech and AI fit with a more realistic cost profile than Amsterdam.</p>
           <div class="action-list">
             <a class="action-link" href="./compare/cities/eindhoven-nl-vs-berlin-de.html">Open compare page</a>
           </div>
@@ -404,52 +341,16 @@
       <div class="job-list" id="job-list"></div>
     </section>
 
-    <section class="panel">
-      <div class="panel-head">
-        <h2>Partner Tools And Revenue Posture</h2>
-        <div class="footnote">Affiliate-first and sponsorship-later. No display ads in this preview.</div>
-      </div>
-      <div class="job-list" id="partner-grid"></div>
-      <div class="job-list">
-        <article class="job-card">
-          <h3>Monetization order</h3>
-          <p>Affiliate links and free templates first. Keep AdSense off by default so the product stays fast, tracker-light, and less exposed to programmatic-SEO quality hits.</p>
-        </article>
-        <article class="job-card">
-          <h3>Analytics</h3>
-          <p>PostHog remains off in local preview. If enabled later, start with event-only analytics and no replay.</p>
-        </article>
-        <article class="job-card">
-          <h3>Cookie banner</h3>
-          <p>A simple first-party banner is enough for a tracker-light MVP. EEA AdSense requires the certified consent path.</p>
-        </article>
-        <article class="job-card">
-          <h3>Live + work positioning</h3>
-          <p>Differentiate from Google Maps by scoring relocation decisions, not by trying to index every restaurant, shop, or place pin.</p>
-        </article>
-        <article class="job-card">
-          <h3>Individual liability posture</h3>
-          <p>
-            Lowest-risk public launch is an informational jobs navigator: no user accounts, no CV intake,
-            direct employer apply links, and business-specific insurance confirmed in writing.
-          </p>
-        </article>
-      </div>
-    </section>
     <footer class="panel footer-panel">
-      <div class="footnote">Private local preview only. Review the trust, data-source, disclosure, privacy, and terms pages before any public launch.</div>
+      <div class="footnote">Public beta focused on relocation intelligence, source-first job metadata, and city-level decision support.</div>
       <nav class="footer-links" aria-label="Footer policy links">
         <a href="./pages/about.html">About</a>
         <a href="./index-2026.html">Index 2026</a>
         <a href="./pages/methodology.html">Methodology</a>
         <a href="./pages/faq.html">FAQ</a>
-        <a href="./pages/trust.html">Trust</a>
-        <a href="./pages/transparency.html">Transparency</a>
         <a href="./pages/data-sources.html">Data sources</a>
-        <a href="./pages/affiliate-disclosure.html">Disclosure</a>
         <a href="./pages/privacy.html">Privacy</a>
         <a href="./pages/terms.html">Terms</a>
-        <a href="./pages/contact.html">Contact</a>
       </nav>
     </footer>
   </main>

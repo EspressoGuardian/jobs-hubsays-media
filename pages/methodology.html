@@ -9,7 +9,7 @@
 <body>
   <main>
     <section class="panel page-shell">
-      <a class="back-link" href="../index.html">Back to preview</a>
+      <a class="back-link" href="../index.html">Back to map</a>
       <h1>Methodology</h1>
       <p>
         The Hubsays Live + Work Index is a decision-support layer for internationals. It does not rank
@@ -19,32 +19,52 @@
       <div class="method-box">
         <h2>Current scoring pillars</h2>
         <ul class="section-list">
-          <li><strong>Jobs:</strong> target-skill role density and visible role volume in the preview dataset.</li>
+          <li><strong>Jobs:</strong> target-skill role density and visible role volume in the current beta dataset.</li>
           <li><strong>Housing:</strong> rent level and rent-to-income pressure.</li>
           <li><strong>Cost:</strong> a city or country cost-of-living index relative to an EU baseline.</li>
           <li><strong>Language:</strong> English-first fit in jobs plus practical daily-life accessibility.</li>
         </ul>
       </div>
       <div class="method-box">
+        <h2>Current move-score contract</h2>
+        <p>
+          In the current public beta, the city-level <strong>move score</strong> is a compact relocation
+          signal built from the scored city contract already visible in <a href="../data/cities.json">cities.json</a>.
+          The public contract currently exposes component scores for jobs, housing, cost, and language. Visa posture
+          is shown separately as a filter and narrative signal rather than as a hidden black-box multiplier.
+        </p>
+        <p>
+          This is intentional: the beta should help a person decide <em>where a move is realistic</em>, not pretend
+          to be an all-knowing recruiter score.
+        </p>
+      </div>
+      <div class="method-box">
         <h2>Data model</h2>
-        <p>The preview now locks a stable contract:</p>
+        <p>The beta currently uses a stable contract:</p>
         <ul class="section-list">
           <li><a href="../data/cities.json">cities.json</a>: identity, raw metrics, and derived scores per city</li>
           <li><a href="../data/countries.json">countries.json</a>: macro comparison layer per country</li>
-          <li><a href="../data/jobs.json">jobs.json</a>: seeded role examples for the preview interface</li>
+          <li><a href="../data/jobs.json">jobs.json</a>: seeded role examples for the beta interface</li>
         </ul>
       </div>
       <div class="method-box">
         <h2>Source posture</h2>
         <p>
-          Public launch should move from seeded preview data to governed official sources: employer career pages,
-          allowed ATS endpoints, approved partner feeds, and selected public statistics. The product should not
+          The public beta currently uses seeded data. The intended long-term source posture is governed official
+          sources: employer career pages, allowed ATS endpoints, and selected public statistics. The product should not
           scrape LinkedIn or store copied full job descriptions at scale.
         </p>
       </div>
+      <div class="method-box">
+        <h2>What the beta does not claim yet</h2>
+        <ul class="section-list">
+          <li>It does not yet publish ghost-job judgments or company hiring-pattern claims.</li>
+          <li>It does not yet show salary-after-tax or disposable-income estimates as if they are precise facts.</li>
+          <li>It does not yet infer relocation difficulty from private user data or stored profiles.</li>
+        </ul>
+      </div>
       <div class="page-note">
-        Current version: <strong>2026-v1</strong>. Future releases should keep the contract stable and log changes
-        in a simple changelog rather than silently shifting the meaning of scores.
+        Current version: <strong>2026-v1</strong>. Changes to the meaning of scores should stay explicit and versioned.
       </div>
     </section>
   </main>

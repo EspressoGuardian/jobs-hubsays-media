@@ -13,8 +13,12 @@
     "lon": 4.9041,
     "summary": "English-speaking product role focused on workflow tooling for cross-border teams.",
     "fit": "Expats targeting platform and SaaS companies with international teams.",
-    "affiliate": "Resume builder plus interview prep copilot",
-    "visa_note": "Looks like a realistic HSM-style international knowledge-work profile for the Netherlands."
+    "visa_note": "Looks like a realistic HSM-style international knowledge-work profile for the Netherlands.",
+    "first_seen": "2026-03-04",
+    "last_verified": "2026-03-13",
+    "repost_count": 0,
+    "days_open": 9,
+    "hiring_signal_summary": "Fresh listing in the current beta with no repeat repost pattern yet."
   },
   {
     "id": "nl-english-ops",
@@ -30,8 +34,12 @@
     "lon": 4.4777,
     "summary": "International operations role suited to English-speaking candidates relocating into the Netherlands.",
     "fit": "Applicants wanting logistics and operations work without needing Dutch first.",
-    "affiliate": "Resume tailoring tool",
-    "visa_note": "English-friendly, but visa sponsorship is less obvious than in software or product roles."
+    "visa_note": "English-friendly, but visa sponsorship is less obvious than in software or product roles.",
+    "first_seen": "2026-02-18",
+    "last_verified": "2026-03-13",
+    "repost_count": 1,
+    "days_open": 24,
+    "hiring_signal_summary": "Steady listing that has stayed open for several weeks with one observed refresh."
   },
   {
     "id": "de-german-dev",
@@ -47,8 +55,12 @@
     "lon": 13.405,
     "summary": "German-speaking backend role in a product-led software environment.",
     "fit": "Developers who want German-market roles with stronger local-language expectations.",
-    "affiliate": "German CV template plus coding interview prep",
-    "visa_note": "Local-language role first; not a clean expat sponsorship wedge."
+    "visa_note": "Local-language role first; not a clear expat sponsorship signal.",
+    "first_seen": "2026-01-30",
+    "last_verified": "2026-03-13",
+    "repost_count": 2,
+    "days_open": 42,
+    "hiring_signal_summary": "Persistent listing with multiple refreshes, useful as a demand signal but not proof of urgency."
   },
   {
     "id": "de-english-data",
@@ -64,8 +76,12 @@
     "lon": 6.9603,
     "summary": "Remote-first analytics role open to English-speaking talent across the EU.",
     "fit": "Candidates searching for English-speaking EU jobs outside Amsterdam’s competition.",
-    "affiliate": "ATS resume builder",
-    "visa_note": "Remote-EU posture reduces relocation friction; immigration path depends on employer and residence plan."
+    "visa_note": "Remote-EU posture reduces relocation friction; immigration path depends on employer and residence plan.",
+    "first_seen": "2026-03-07",
+    "last_verified": "2026-03-13",
+    "repost_count": 0,
+    "days_open": 6,
+    "hiring_signal_summary": "Recently surfaced listing with short open duration and no repost activity yet."
   },
   {
     "id": "it-italian-marketing",
@@ -81,8 +97,12 @@
     "lon": 9.19,
     "summary": "Italian-speaking growth role for a digital products team with international clients.",
     "fit": "Italian speakers who want a local-market role with modern remote tooling.",
-    "affiliate": "Marketing CV template plus interview prep",
-    "visa_note": "Language-specific local-market role, not positioned as a visa-first lane."
+    "visa_note": "Language-specific local-market role, not positioned as a visa-first path.",
+    "first_seen": "2026-02-25",
+    "last_verified": "2026-03-13",
+    "repost_count": 1,
+    "days_open": 17,
+    "hiring_signal_summary": "Mid-cycle listing with one refresh, likely still active but no strong urgency cue."
   },
   {
     "id": "it-english-cs",
@@ -98,8 +118,12 @@
     "lon": 12.4964,
     "summary": "English-speaking customer success role in a remote-first EU SaaS team.",
     "fit": "Expats who want Italy-based work without a full Italian-language barrier.",
-    "affiliate": "Resume builder and cover-letter tool",
-    "visa_note": "Remote-first reduces language barriers, but formal sponsorship is not explicit."
+    "visa_note": "Remote-first reduces language barriers, but formal sponsorship is not explicit.",
+    "first_seen": "2026-03-02",
+    "last_verified": "2026-03-13",
+    "repost_count": 0,
+    "days_open": 11,
+    "hiring_signal_summary": "Fresh remote-first listing with a clean verification trail so far."
   },
   {
     "id": "es-expat-design",
@@ -115,8 +139,12 @@
     "lon": 2.1686,
     "summary": "Expat-friendly product design role with international hiring posture.",
     "fit": "English-speaking designers moving into southern Europe.",
-    "affiliate": "Design CV template",
-    "visa_note": "Expat-friendly signal is stronger than sponsorship certainty."
+    "visa_note": "Expat-friendly signal is stronger than sponsorship certainty.",
+    "first_seen": "2026-02-12",
+    "last_verified": "2026-03-13",
+    "repost_count": 1,
+    "days_open": 30,
+    "hiring_signal_summary": "Longer-running listing with one observed refresh, worth treating as active but not brand-new."
   },
   {
     "id": "pt-english-support",
@@ -132,8 +160,12 @@
     "lon": -9.1393,
     "summary": "Support leadership role in a city popular with English-speaking relocators.",
     "fit": "Candidates targeting expat-heavy hiring hubs in southern Europe.",
-    "affiliate": "Resume tailoring tool",
-    "visa_note": "Good relocation city fit, but this preview does not assume sponsorship."
+    "visa_note": "Good relocation city fit, but this beta does not assume sponsorship.",
+    "first_seen": "2026-01-20",
+    "last_verified": "2026-03-13",
+    "repost_count": 3,
+    "days_open": 53,
+    "hiring_signal_summary": "Very persistent listing with repeated refreshes; useful as a market signal but not a guaranteed live headcount."
   },
   {
     "id": "ie-english-sales",
@@ -149,8 +181,12 @@
     "lon": -6.2603,
     "summary": "English-speaking sales role in a market where many international tech firms hire.",
     "fit": "Job seekers wanting a familiar English-language market inside the EU.",
-    "affiliate": "Interview prep copilot",
-    "visa_note": "Native-English market fit is strong; visa path depends on the applicant's residence status."
+    "visa_note": "Native-English market fit is strong; visa path depends on the applicant's residence status.",
+    "first_seen": "2026-03-05",
+    "last_verified": "2026-03-13",
+    "repost_count": 0,
+    "days_open": 8,
+    "hiring_signal_summary": "Fresh commercial role with a short open window and no repost pattern observed yet."
   },
   {
     "id": "be-english-hr",
@@ -166,8 +202,12 @@
     "lon": 4.3517,
     "summary": "International hiring role with multilingual teams and English-first workflows.",
     "fit": "Expat candidates targeting Brussels or pan-EU teams.",
-    "affiliate": "Resume builder",
-    "visa_note": "Multinational hiring posture is positive, but visa status is not explicit."
+    "visa_note": "Multinational hiring posture is positive, but visa status is not explicit.",
+    "first_seen": "2026-02-27",
+    "last_verified": "2026-03-13",
+    "repost_count": 1,
+    "days_open": 14,
+    "hiring_signal_summary": "Recently refreshed listing with moderate age and a still-plausible live hiring path."
   },
   {
     "id": "at-german-finance",
@@ -183,8 +223,12 @@
     "lon": 16.3738,
     "summary": "German-speaking finance role with a traditional local-market hiring profile.",
     "fit": "Candidates who want DACH-region roles and German-language matching.",
-    "affiliate": "German CV template",
-    "visa_note": "Traditional local-market hiring profile; not an expat-first wedge."
+    "visa_note": "Traditional local-market hiring profile; not an expat-first fit.",
+    "first_seen": "2026-02-03",
+    "last_verified": "2026-03-13",
+    "repost_count": 2,
+    "days_open": 38,
+    "hiring_signal_summary": "Persistent local-market listing with repeat refreshes and a longer-than-average open window."
   },
   {
     "id": "pl-english-devops",
@@ -200,8 +244,12 @@
     "lon": 21.0122,
     "summary": "Remote DevOps role open to English-speaking candidates across the EU time zone.",
     "fit": "Engineers searching for EU jobs with lower-cost markets and remote flexibility.",
-    "affiliate": "ATS resume builder plus technical interview prep",
-    "visa_note": "Remote-EU fit is strong; immigration path depends on location and employer policy."
+    "visa_note": "Remote-EU fit is strong; immigration path depends on location and employer policy.",
+    "first_seen": "2026-03-01",
+    "last_verified": "2026-03-13",
+    "repost_count": 0,
+    "days_open": 12,
+    "hiring_signal_summary": "Fresh engineering listing with no repeat repost evidence in the current beta."
   },
   {
     "id": "nl-ai-ml",
@@ -217,8 +265,12 @@
     "lon": 5.4697,
     "summary": "Applied ML role in a hardware-adjacent AI team with English-first technical collaboration.",
     "fit": "Strong match for internationals targeting AI and deep-tech roles in the Netherlands.",
-    "affiliate": "ATS resume builder plus ML interview prep",
-    "visa_note": "High-skill technical profile makes this a strong HSM-style preview candidate."
+    "visa_note": "High-skill technical profile makes this a strong HSM-style beta candidate.",
+    "first_seen": "2026-02-21",
+    "last_verified": "2026-03-13",
+    "repost_count": 1,
+    "days_open": 20,
+    "hiring_signal_summary": "Steady AI role with one refresh and a still-credible hiring window."
   },
   {
     "id": "nl-ai-pm",
@@ -233,8 +285,12 @@
     "lat": 52.0907,
     "lon": 5.1214,
     "summary": "AI product role connecting model teams, workflow automation, and international operator needs.",
-    "fit": "Useful wedge for English-speaking PMs with AI or SaaS experience.",
-    "affiliate": "Resume builder plus PM interview prep",
-    "visa_note": "Knowledge-work profile and English-first posture make sponsorship more plausible than average."
+    "fit": "Useful fit for English-speaking PMs with AI or SaaS experience.",
+    "visa_note": "Knowledge-work profile and English-first posture make sponsorship more plausible than average.",
+    "first_seen": "2026-02-09",
+    "last_verified": "2026-03-13",
+    "repost_count": 2,
+    "days_open": 32,
+    "hiring_signal_summary": "Persistent AI-adjacent listing with repeat refreshes, better treated as a demand signal than a guaranteed immediate opening."
   }
 ]

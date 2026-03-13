@@ -18,7 +18,7 @@
       "language_score": 0.95,
       "overall_score_default_weights": 0.78
     },
-    "summary": "Best first public wedge for English-speaking and HSM-aware knowledge work, but the hardest housing tradeoff."
+    "summary": "Strong first-choice market for English-speaking and HSM-aware knowledge work, but with the hardest housing tradeoff."
   },
   {
     "code": "DE",
@@ -60,7 +60,7 @@
       "language_score": 0.62,
       "overall_score_default_weights": 0.65
     },
-    "summary": "Lower-cost lifestyle lane with weaker current job density in this preview."
+    "summary": "Lower-cost lifestyle option with weaker current job density in this beta."
   },
   {
     "code": "AT",
@@ -81,7 +81,7 @@
       "language_score": 0.6,
       "overall_score_default_weights": 0.64
     },
-    "summary": "Stable mid-cost DACH option with less English-first hiring than the NL wedge."
+    "summary": "Stable mid-cost DACH option with less English-first hiring than the Netherlands."
   },
   {
     "code": "IT",
@@ -102,6 +102,6 @@
       "language_score": 0.52,
       "overall_score_default_weights": 0.56
     },
-    "summary": "Better as a language-specific follow-on lane than as the first English-speaking wedge."
+    "summary": "Better as a language-specific secondary market than as a first-choice English-speaking market."
   }
 ]

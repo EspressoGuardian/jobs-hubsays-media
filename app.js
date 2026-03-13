@@ -6,6 +6,7 @@ const BOUNDS = {
 };
 
 const LOCAL_STORAGE_KEY = "hubsays-live-work-map-weights";
+const LOCAL_PREFERENCE_KEY = "hubsays-live-work-map-preferences";
 
 const filters = {
   country: "All",
@@ -23,6 +24,14 @@ const weights = {
   visa: 7,
 };
 
+const preferences = {
+  salaryTarget: 65000,
+  remotePreference: "Any",
+  freshnessWindow: "Any",
+  visaRequired: false,
+  hidePersistent: false,
+};
+
 const presets = {
   all: { country: "All", city: "All", language: "All", mode: "All", category: "All", visa: "All" },
   "nl-live-work": { country: "Netherlands", city: "All", language: "English", mode: "All", category: "All", visa: "All" },
@@ -38,7 +47,6 @@ const presets = {
 let jobs = [];
 let cities = [];
 let countries = [];
-let affiliates = [];
 let activeId = "";
 let activePreset = "all";
 let compareState = {
@@ -112,14 +120,23 @@ function populateCompareSelects() {
 }
 
 function filteredJobs() {
-  return jobs.filter((job) => (
-    (filters.country === "All" || job.country === filters.country) &&
-    (filters.city === "All" || job.city === filters.city) &&
-    (filters.language === "All" || job.language === filters.language) &&
-    (filters.mode === "All" || job.mode === filters.mode) &&
-    (filters.category === "All" || job.category === filters.category) &&
-    (filters.visa === "All" || job.visa === filters.visa)
-  ));
+  return jobs
+    .filter((job) => (
+      (filters.country === "All" || job.country === filters.country) &&
+      (filters.city === "All" || job.city === filters.city) &&
+      (filters.language === "All" || job.language === filters.language) &&
+      (filters.mode === "All" || job.mode === filters.mode) &&
+      (filters.category === "All" || job.category === filters.category) &&
+      (filters.visa === "All" || job.visa === filters.visa) &&
+      matchesPreferenceFilters(job)
+    ))
+    .sort((left, right) => {
+      const fitDelta = personalFitForJob(right) - personalFitForJob(left);
+      if (fitDelta !== 0) {
+        return fitDelta;
+      }
+      return (left.days_open || 0) - (right.days_open || 0);
+    });
 }
 
 function renderStats(items) {
@@ -255,6 +272,157 @@ function formatEur(value) {
   return `EUR ${Math.round(value || 0).toLocaleString()}`;
 }
 
+function formatSignalDate(value) {
+  if (!value) {
+    return "Unknown";
+  }
+  const parsed = new Date(`${value}T00:00:00Z`);
+  if (Number.isNaN(parsed.getTime())) {
+    return value;
+  }
+  return parsed.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
+function hiringSignalLabel(job) {
+  const daysOpen = Number(job?.days_open || 0);
+  const repostCount = Number(job?.repost_count || 0);
+  if (repostCount >= 2 || daysOpen >= 30) {
+    return "Persistent listing";
+  }
+  if (repostCount >= 1 || daysOpen >= 15) {
+    return "Steady listing";
+  }
+  return "Fresh listing";
+}
+
+function preferenceRoleLens() {
+  if (filters.category === "AI / Data / Engineering") {
+    return "AI / Data / Engineering";
+  }
+  if (filters.category === "Product") {
+    return "Product";
+  }
+  if (filters.category === "Operations") {
+    return "Operations";
+  }
+  return "All";
+}
+
+function jobRoleLens(job) {
+  if (job?.category === "AI / Data / Engineering" || job?.category === "Engineering") {
+    return "AI / Data / Engineering";
+  }
+  if (job?.category === "Product") {
+    return "Product";
+  }
+  if (job?.category === "Operations") {
+    return "Operations";
+  }
+  return "All";
+}
+
+function visaAwareJob(job) {
+  return ["HSM/Visa-likely", "Remote/EU-friendly"].includes(job?.visa);
+}
+
+function matchesPreferenceFilters(job) {
+  if (preferences.freshnessWindow !== "Any" && Number(job?.days_open || 0) > Number(preferences.freshnessWindow)) {
+    return false;
+  }
+  if (preferences.hidePersistent && hiringSignalLabel(job) === "Persistent listing") {
+    return false;
+  }
+  if (preferences.visaRequired && !visaAwareJob(job)) {
+    return false;
+  }
+  return true;
+}
+
+function modeFitScore(job) {
+  if (preferences.remotePreference === "Any") {
+    return 75;
+  }
+  return job?.mode === preferences.remotePreference ? 100 : 35;
+}
+
+function salaryFitScore(job) {
+  const city = cityForJob(job);
+  const estimate = salaryEstimate(city, jobRoleLens(job));
+  if (!estimate) {
+    return 50;
+  }
+  const target = Number(preferences.salaryTarget || 0);
+  if (!target) {
+    return 70;
+  }
+  const ratio = estimate / target;
+  if (ratio >= 1.15) {
+    return 100;
+  }
+  if (ratio >= 1) {
+    return 88;
+  }
+  if (ratio >= 0.9) {
+    return 72;
+  }
+  if (ratio >= 0.75) {
+    return 52;
+  }
+  return 30;
+}
+
+function freshnessFitScore(job) {
+  const daysOpen = Number(job?.days_open || 0);
+  const reposts = Number(job?.repost_count || 0);
+  if (daysOpen <= 14 && reposts === 0) {
+    return 96;
+  }
+  if (daysOpen <= 30 && reposts <= 1) {
+    return 78;
+  }
+  if (daysOpen <= 45 && reposts <= 2) {
+    return 60;
+  }
+  return 38;
+}
+
+function visaFitScore(job) {
+  if (!preferences.visaRequired) {
+    return visaAwareJob(job) ? 88 : 62;
+  }
+  return visaAwareJob(job) ? 100 : 25;
+}
+
+function personalFitForJob(job) {
+  const city = cityForJob(job);
+  const cityScore = Number(city?.move_score || 55);
+  const salaryScore = salaryFitScore(job);
+  const freshnessScore = freshnessFitScore(job);
+  const visaFit = visaFitScore(job);
+  const modeScore = modeFitScore(job);
+  return Math.round(
+    (cityScore * 0.3) +
+    (salaryScore * 0.25) +
+    (visaFit * 0.2) +
+    (modeScore * 0.15) +
+    (freshnessScore * 0.1)
+  );
+}
+
+function citySalaryFit(city) {
+  return salaryFitScore({
+    ...city,
+    category: preferenceRoleLens(),
+    country: city.country,
+    city: city.city,
+  });
+}
+
 function housingScore(city, minRent, maxRent) {
   if (maxRent <= minRent) {
     return 60;
@@ -294,11 +462,17 @@ function renderDecisionDesk(items) {
   const root = document.getElementById("decision-results");
   root.innerHTML = "";
   const rows = decisionRows(items).slice(0, 4);
+  const summary = document.getElementById("decision-persona-summary");
+  if (summary) {
+    summary.textContent = `Local-only profile: salary target ${formatEur(preferences.salaryTarget)}, remote preference ${preferences.remotePreference.toLowerCase()}, freshness ${preferences.freshnessWindow === "Any" ? "any age" : `${preferences.freshnessWindow} days`}, visa filter ${preferences.visaRequired ? "on" : "off"}, persistent-role hide ${preferences.hidePersistent ? "on" : "off"}.`;
+  }
   if (!rows.length) {
     root.innerHTML = "<p class=\"footnote\">No cities match the current filters, so the decision desk cannot rank anything yet.</p>";
     return;
   }
   rows.forEach((city) => {
+    const salaryFit = citySalaryFit(city);
+    const personalFit = Math.round((city.decision_score * 0.65) + (salaryFit * 0.2) + ((preferences.visaRequired ? city.visa_score : 70) * 0.15));
     const article = document.createElement("article");
     article.className = "decision-card";
     article.innerHTML = `
@@ -315,6 +489,8 @@ function renderDecisionDesk(items) {
         <span class="chip">Rent ~ EUR ${city.avg_rent_eur}/mo</span>
         <span class="chip">English ${city.english_score}</span>
         <span class="chip">Visa ${city.visa_score}</span>
+        <span class="chip">Salary fit ${salaryFit}</span>
+        <span class="chip">Personal fit ${personalFit}</span>
       </div>
     `;
     root.appendChild(article);
@@ -365,13 +541,15 @@ function renderCityInsights(items) {
     root.appendChild(article);
   });
   const top = rows[0];
-  summary.textContent = `${top.city} currently leads this filtered view for practical relocation fit: ${top.visible_jobs} visible jobs, move score ${top.move_score}, and ${top.housing_pressure.toLowerCase()} housing pressure in this preview dataset.`;
+  summary.textContent = `${top.city} currently leads this filtered view for practical relocation fit: ${top.visible_jobs} visible jobs, move score ${top.move_score}, and ${top.housing_pressure.toLowerCase()} housing pressure in the current beta dataset.`;
 }
 
 function renderJobs(items) {
   const root = document.getElementById("job-list");
   root.innerHTML = "";
   items.forEach((job) => {
+    const signalLabel = hiringSignalLabel(job);
+    const personalFit = personalFitForJob(job);
     const article = document.createElement("article");
     article.className = `job-card${job.id === activeId ? " active" : ""}`;
     article.innerHTML = `
@@ -383,10 +561,14 @@ function renderJobs(items) {
         <span class="chip">${job.mode}</span>
         <span class="chip">${job.category}</span>
         <span class="chip">${job.visa}</span>
+        <span class="chip">${signalLabel}</span>
+        <span class="chip">Verified ${formatSignalDate(job.last_verified)}</span>
+        <span class="chip">Open ${job.days_open || 0}d</span>
+        <span class="chip">Personal fit ${personalFit}</span>
       </div>
       <p>${job.summary}</p>
       <p><strong>Best fit:</strong> ${job.fit}</p>
-      <p><strong>Suggested affiliate path:</strong> ${job.affiliate}</p>
+      <p><strong>Hiring signal:</strong> ${job.hiring_signal_summary || "Lifecycle data is not available yet in this beta."}</p>
     `;
     article.addEventListener("click", () => {
       activeId = job.id;
@@ -404,6 +586,8 @@ function renderSelected(job) {
   }
   const template = templateFor(job);
   const city = cityForJob(job);
+  const signalLabel = hiringSignalLabel(job);
+  const personalFit = personalFitForJob(job);
   root.innerHTML = `
     <div class="eyebrow">${job.company}</div>
     <h3>${job.title}</h3>
@@ -413,21 +597,23 @@ function renderSelected(job) {
       <span class="chip">${job.mode}</span>
       <span class="chip">${job.category}</span>
       <span class="chip">${job.visa}</span>
+      <span class="chip">${signalLabel}</span>
+      <span class="chip">Personal fit ${personalFit}</span>
     </div>
     <p>${job.summary}</p>
     <p><strong>Best fit:</strong> ${job.fit}</p>
-    <p><strong>Suggested next step:</strong> ${job.affiliate}</p>
+    <p><strong>Personal fit:</strong> ${personalFit}/100 based on relocation fit, salary target, freshness, visa posture, and mode preference stored in this browser.</p>
+    <p><strong>Hiring signal:</strong> ${job.hiring_signal_summary || "Lifecycle data is not available yet in this beta."}</p>
+    <p><strong>Lifecycle:</strong> First seen ${formatSignalDate(job.first_seen)}. Last verified ${formatSignalDate(job.last_verified)}. Reposts observed ${job.repost_count || 0}. Days open ${job.days_open || 0}.</p>
     <p><strong>Visa path:</strong> ${job.visa_note}</p>
     ${city ? `<p><strong>Relocation fit:</strong> Move score ${city.move_score}, rent ~ EUR ${city.avg_rent_eur}/mo, housing pressure ${city.housing_pressure.toLowerCase()}.</p>` : ""}
-    <p><strong>Source posture:</strong> local preview dataset only. Public launch should switch this to governed official-source ingest.</p>
+    <p><strong>Source posture:</strong> this beta uses structured lifecycle metadata and short summaries. Always verify the current role details at the original source.</p>
     <div class="micro-note">
-      AI-assisted expat snapshot only. Public launch should link directly to the employer or official source,
-      never replace the original listing, and never promise sponsorship or hiring outcomes.
+      AI-assisted expat snapshot only. This site should complement the original listing, not replace it,
+      and it should never promise sponsorship or hiring outcomes.
     </div>
     <div class="action-list">
       <a class="action-link" href="${template.href}">${template.label}</a>
-      <a class="action-link" href="http://127.0.0.1:8021/">Open intent hub</a>
-      <a class="action-link" href="http://127.0.0.1:8020/">Open tool radar</a>
     </div>
   `;
 }
@@ -478,7 +664,7 @@ function compareVerdict(left, right, roleLens) {
   const salaryText = leaderAgainstLagger
     ? ` The current rent-adjusted salary snapshot keeps ${leader.city} around ${formatEur(leaderAgainstLagger.adjustedSalary)} when benchmarked against ${lagger.city}.`
     : "";
-  return `${leader.city} currently looks stronger than ${lagger.city} for ${roleText}: ${leader.role_jobs} visible roles in this preview slice, move score ${leader.move_score}, estimated salary ${formatEur(leader.salary_estimate_eur)}, and rent around ${formatEur(leader.avg_rent_eur)}/month.${salaryText}`;
+  return `${leader.city} currently looks stronger than ${lagger.city} for ${roleText}: ${leader.role_jobs} visible roles in this beta slice, move score ${leader.move_score}, estimated salary ${formatEur(leader.salary_estimate_eur)}, and rent around ${formatEur(leader.avg_rent_eur)}/month.${salaryText}`;
 }
 
 function renderComparePPP(left, right) {
@@ -505,7 +691,7 @@ function renderComparePPP(left, right) {
     <article class="ppp-panel">
       <div class="panel-head">
         <h3>Rent-adjusted salary snapshot</h3>
-        <div class="footnote">Useful as an operator heuristic only. This preview adjusts for central rent pressure, not full tax law, family size, or every living cost.</div>
+        <div class="footnote">Useful as a directional heuristic only. This beta adjusts for central rent pressure, not full tax law, family size, or every living cost.</div>
       </div>
       <div class="ppp-grid">
         ${scenarios.map((scenario) => `
@@ -533,73 +719,6 @@ function renderComparePPP(left, right) {
               A ${formatEur(scenario.targetSalary)} target salary in ${scenario.target.city} feels closer to
               <strong>${formatEur(scenario.adjustedSalary)}</strong> when you benchmark it against ${scenario.home.city}'s rent pressure.
             </p>
-          </section>
-        `).join("")}
-      </div>
-    </article>
-  `;
-}
-
-function renderComparePartner(left, right) {
-  const root = document.getElementById("compare-partner");
-  root.innerHTML = "";
-  if (!left || !right) {
-    return;
-  }
-  const choices = [];
-  const lowerEnglish = left.fit.english <= right.fit.english ? left : right;
-  const higherRent = left.avg_rent_eur >= right.avg_rent_eur ? left : right;
-
-  if (left.country_code !== right.country_code) {
-    choices.push({
-      partner: affiliates.find((item) => item.id === "wise-borderless"),
-      reason: `A move between ${left.country} and ${right.country} usually creates banking and FX friction before the rest of the relocation stack is settled.`,
-    });
-    choices.push({
-      partner: affiliates.find((item) => item.id === "safetywing-cover"),
-      reason: "Cross-border moves often leave a short cover gap before long-term local insurance becomes active.",
-    });
-  }
-  if (lowerEnglish.fit.english < 75) {
-    choices.push({
-      partner: affiliates.find((item) => item.id === "preply-language"),
-      reason: `${lowerEnglish.city} looks more viable once the language gap is de-risked instead of treated as an afterthought.`,
-    });
-  }
-  if (higherRent.avg_rent_eur >= 1500 || compareState.role !== "All") {
-    choices.push({
-      partner: affiliates.find((item) => item.id === "resume-builder"),
-      reason: `Higher-cost lanes like ${higherRent.city} punish slow application quality, so a stronger CV tool is the cleanest first conversion path.`,
-    });
-  }
-  const rendered = choices
-    .filter((choice) => choice.partner)
-    .filter((choice, index, array) => array.findIndex((item) => item.partner.id === choice.partner.id) === index)
-    .slice(0, 2);
-  if (!rendered.length) {
-    return;
-  }
-  root.innerHTML = `
-    <article class="partner-spotlight">
-      <div class="panel-head">
-        <h3>Contextual next-step tools</h3>
-        <div class="footnote">Affiliate-first, clearly labelled, and only shown when the comparison creates a real follow-on task.</div>
-      </div>
-      <div class="partner-grid">
-        ${rendered.map(({ partner, reason }) => `
-          <section class="partner-card">
-            <div class="partner-card-head">
-              <div>
-                <div class="eyebrow">${partner.provider}</div>
-                <h4>${partner.title}</h4>
-              </div>
-              <div class="partner-tag">Partner</div>
-            </div>
-            <p>${partner.description}</p>
-            <p class="partner-reason"><strong>Why it fits this comparison:</strong> ${reason}</p>
-            <div class="action-list">
-              <a class="action-link" href="${partner.url}" target="_blank" rel="noreferrer noopener sponsored">${partner.cta}</a>
-            </div>
           </section>
         `).join("")}
       </div>
@@ -642,25 +761,6 @@ function renderCompareWorkbench() {
     root.appendChild(article);
   });
   renderComparePPP(left, right);
-  renderComparePartner(left, right);
-}
-
-function renderPartnerTools() {
-  const root = document.getElementById("partner-grid");
-  root.innerHTML = "";
-  affiliates.forEach((partner) => {
-    const article = document.createElement("article");
-    article.className = "job-card";
-    article.innerHTML = `
-      <div class="eyebrow">${partner.provider}</div>
-      <h3>${partner.title}</h3>
-      <p>${partner.description}</p>
-      <div class="action-list">
-        <a class="action-link" href="${partner.url}" target="_blank" rel="noreferrer noopener">${partner.cta}</a>
-      </div>
-    `;
-    root.appendChild(article);
-  });
 }
 
 function renderIndexSummary() {
@@ -695,6 +795,10 @@ function saveWeights() {
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(weights));
 }
 
+function savePreferences() {
+  localStorage.setItem(LOCAL_PREFERENCE_KEY, JSON.stringify(preferences));
+}
+
 function loadWeights() {
   const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
   if (!raw) {
@@ -712,11 +816,47 @@ function loadWeights() {
   }
 }
 
+function loadPreferences() {
+  const raw = localStorage.getItem(LOCAL_PREFERENCE_KEY);
+  if (!raw) {
+    return;
+  }
+  try {
+    const parsed = JSON.parse(raw);
+    if (typeof parsed.salaryTarget === "number") {
+      preferences.salaryTarget = parsed.salaryTarget;
+    }
+    if (typeof parsed.remotePreference === "string") {
+      preferences.remotePreference = parsed.remotePreference;
+    }
+    if (typeof parsed.freshnessWindow === "string") {
+      preferences.freshnessWindow = parsed.freshnessWindow;
+    }
+    if (typeof parsed.visaRequired === "boolean") {
+      preferences.visaRequired = parsed.visaRequired;
+    }
+    if (typeof parsed.hidePersistent === "boolean") {
+      preferences.hidePersistent = parsed.hidePersistent;
+    }
+  } catch (_error) {
+    // ignore malformed local state
+  }
+}
+
 function syncWeightControls() {
   document.getElementById("weight-jobs").value = String(weights.jobs);
   document.getElementById("weight-housing").value = String(weights.housing);
   document.getElementById("weight-english").value = String(weights.english);
   document.getElementById("weight-visa").value = String(weights.visa);
+}
+
+function syncPreferenceControls() {
+  document.getElementById("salary-target").value = String(preferences.salaryTarget);
+  document.getElementById("salary-target-value").textContent = `${formatEur(preferences.salaryTarget)}+`;
+  document.getElementById("remote-preference").value = preferences.remotePreference;
+  document.getElementById("freshness-window").value = preferences.freshnessWindow;
+  document.getElementById("visa-required").checked = preferences.visaRequired;
+  document.getElementById("hide-persistent").checked = preferences.hidePersistent;
 }
 
 function render() {
@@ -736,15 +876,16 @@ function render() {
 }
 
 async function main() {
-  [jobs, cities, countries, affiliates] = await Promise.all([
+  [jobs, cities, countries] = await Promise.all([
     fetch("./data/jobs.json").then((response) => response.json()),
     fetch("./data/cities.json").then((response) => response.json()),
     fetch("./data/countries.json").then((response) => response.json()),
-    fetch("./data/affiliates.json").then((response) => response.json()),
   ]);
 
   loadWeights();
+  loadPreferences();
   syncWeightControls();
+  syncPreferenceControls();
 
   populateSelect("country-filter", optionsFor("country"));
   populateSelect("city-filter", optionsFor("city"));
@@ -753,7 +894,6 @@ async function main() {
   populateSelect("category-filter", optionsFor("category"));
   populateSelect("visa-filter", optionsFor("visa"));
   populateCompareSelects();
-  renderPartnerTools();
   renderIndexSummary();
 
   document.getElementById("country-filter").addEventListener("change", (event) => {
@@ -810,6 +950,33 @@ async function main() {
       saveWeights();
       render();
     });
+  });
+
+  document.getElementById("salary-target").addEventListener("input", (event) => {
+    preferences.salaryTarget = Number(event.target.value);
+    savePreferences();
+    syncPreferenceControls();
+    render();
+  });
+  document.getElementById("remote-preference").addEventListener("change", (event) => {
+    preferences.remotePreference = event.target.value;
+    savePreferences();
+    render();
+  });
+  document.getElementById("freshness-window").addEventListener("change", (event) => {
+    preferences.freshnessWindow = event.target.value;
+    savePreferences();
+    render();
+  });
+  document.getElementById("visa-required").addEventListener("change", (event) => {
+    preferences.visaRequired = event.target.checked;
+    savePreferences();
+    render();
+  });
+  document.getElementById("hide-persistent").addEventListener("change", (event) => {
+    preferences.hidePersistent = event.target.checked;
+    savePreferences();
+    render();
   });
 
   document.getElementById("compare-city-a").addEventListener("change", (event) => {

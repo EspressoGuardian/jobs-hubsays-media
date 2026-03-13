@@ -184,6 +184,29 @@ select {
   accent-color: var(--accent);
 }
 
+.inline-value {
+  color: var(--accent);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.toggle-option {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.toggle-option input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+
 .decision-results,
 .compare-grid {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
