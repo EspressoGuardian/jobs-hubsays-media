@@ -3,7 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hubsays Live + Work Map</title>
+  <title>Find English-friendly EU jobs you can actually afford | Hubsays</title>
+  <meta
+    name="description"
+    content="Privacy-first relocation intelligence for internationals. Compare English-friendly EU jobs, rent pressure, and visa-aware city signals with no login and no tracking."
+  />
+  <meta property="og:title" content="Find English-friendly EU jobs you can actually afford | Hubsays" />
+  <meta
+    property="og:description"
+    content="A static, privacy-first live and work map for internationals comparing jobs, relocation fit, rent pressure, and city-level signals across Europe."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://jobs.hubsays.media/" />
+  <meta name="theme-color" content="#173847" />
   <link rel="stylesheet" href="./styles.css" />
   <script type="application/ld+json">
     {
@@ -28,21 +40,30 @@
   <main>
     <section class="notice-strip panel">
       <div>
-        <strong>Public beta:</strong> This MVP is a navigation layer, not a recruitment agency.
-        It is designed around direct-source links, AI-assisted summaries with human review, and a
-        low-data posture.
+        <strong>Public beta:</strong> This is a static relocation-intelligence layer, not a recruiter,
+        applicant tracker, or candidate database.
       </div>
       <a class="notice-link" href="./pages/methodology.html">How it works</a>
     </section>
 
     <section class="hero panel">
       <div class="eyebrow">Public beta</div>
-      <h1>Hubsays Live + Work Map</h1>
+      <h1>Find English-friendly EU jobs you can actually afford.</h1>
       <p class="lede">
-        Find where internationals can realistically live and work, starting with English-friendly
-        and visa-aware roles in the Netherlands, then widening into Europe with city-level housing
-        pressure and relocation signals.
+        Hubsays helps internationals compare jobs, housing pressure, and relocation realism without
+        login walls, spam funnels, or a personal-data warehouse.
       </p>
+      <div class="trust-strip" aria-label="Trust signals">
+        <span class="trust-pill">No account required</span>
+        <span class="trust-pill">No CV uploads</span>
+        <span class="trust-pill">Static privacy-first beta</span>
+        <span class="trust-pill">Direct-source posture</span>
+      </div>
+      <div class="hero-actions">
+        <a class="action-link" href="#jobs-map">Open live map</a>
+        <a class="action-link" href="./compare/cities/amsterdam-nl-vs-berlin-de.html">Browse compare pages</a>
+        <a class="action-link" href="#decision-desk">Use Decision Desk</a>
+      </div>
       <nav class="nav-links" aria-label="Preview policy links">
         <a href="./pages/about.html">About</a>
         <a href="./index-2026.html">Index 2026</a>
@@ -54,15 +75,15 @@
       </nav>
       <div class="hero-grid">
         <div>
-          <div class="metric" id="job-count">0</div>
-          <p class="footnote">jobs in current filtered view</p>
+          <div class="metric" id="job-count">14</div>
+          <p class="footnote">seeded jobs in the current beta dataset</p>
         </div>
         <div>
-          <div class="metric" id="country-count">0</div>
+          <div class="metric" id="country-count">9</div>
           <p class="footnote">countries covered</p>
         </div>
         <div>
-          <div class="metric" id="language-count">0</div>
+          <div class="metric" id="language-count">3</div>
           <p class="footnote">language tracks</p>
         </div>
       </div>
@@ -80,15 +101,15 @@
       <div class="index-grid">
         <article class="job-card">
           <h3>Top city</h3>
-          <p id="index-top-city">Loading…</p>
+          <p id="index-top-city">Eindhoven, Netherlands (84)</p>
         </article>
         <article class="job-card">
           <h3>Top country</h3>
-          <p id="index-top-country">Loading…</p>
+          <p id="index-top-country">Netherlands (78)</p>
         </article>
         <article class="job-card">
           <h3>Current model</h3>
-          <p id="index-data-model">Loading…</p>
+          <p id="index-data-model">9 countries, seeded city metrics, static JSON contract, no user storage.</p>
         </article>
       </div>
       <div class="action-list">
@@ -163,7 +184,7 @@
       </div>
     </section>
 
-    <section class="panel">
+    <section class="panel" id="decision-desk">
       <div class="panel-head">
         <h2>Decision Desk</h2>
         <div class="footnote">Zero-party preferences only. Saved locally in the browser, not on a server.</div>
@@ -233,7 +254,7 @@
     </section>
 
     <section class="layout">
-      <section class="panel map-panel">
+      <section class="panel map-panel" id="jobs-map">
         <div class="panel-head">
           <h2>Jobs Map</h2>
           <div class="stamp" id="updated-at"></div>
@@ -317,7 +338,7 @@
         <article class="job-card">
           <div class="eyebrow">City vs City</div>
           <h3>Eindhoven vs Berlin</h3>
-          <p>Deep-tech and AI fit with a more realistic cost profile than Amsterdam.</p>
+          <p>Deep-tech and AI relocation wedge with a more realistic cost profile than Amsterdam.</p>
           <div class="action-list">
             <a class="action-link" href="./compare/cities/eindhoven-nl-vs-berlin-de.html">Open compare page</a>
           </div>
@@ -342,7 +363,9 @@
     </section>
 
     <footer class="panel footer-panel">
-      <div class="footnote">Public beta focused on relocation intelligence, source-first job metadata, and city-level decision support.</div>
+      <div class="footnote">
+        GDPR-first public beta focused on relocation intelligence, source-first job metadata, and city-level decision support.
+      </div>
       <nav class="footer-links" aria-label="Footer policy links">
         <a href="./pages/about.html">About</a>
         <a href="./index-2026.html">Index 2026</a>
@@ -351,6 +374,7 @@
         <a href="./pages/data-sources.html">Data sources</a>
         <a href="./pages/privacy.html">Privacy</a>
         <a href="./pages/terms.html">Terms</a>
+        <a href="https://github.com/EspressoGuardian/jobs-hubsays-media" rel="noopener noreferrer">GitHub</a>
       </nav>
     </footer>
   </main>

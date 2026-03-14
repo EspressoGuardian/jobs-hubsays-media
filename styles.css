@@ -52,6 +52,30 @@ main {
   margin-top: 16px;
 }
 
+.trust-strip,
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+}
+
+.trust-strip {
+  margin-top: 18px;
+}
+
+.hero-actions {
+  margin-top: 16px;
+}
+
+.trust-pill {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--ink);
+  font-size: 0.92rem;
+}
+
 .nav-links a,
 .footer-links a,
 .back-link {
@@ -258,6 +282,14 @@ select {
 .compare-ppp,
 .compare-partner {
   margin-top: 18px;
+}
+
+@media (max-width: 720px) {
+  .notice-strip,
+  .trust-strip,
+  .hero-actions {
+    display: grid;
+  }
 }
 
 .ppp-panel,
