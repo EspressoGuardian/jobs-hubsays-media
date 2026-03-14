@@ -26,15 +26,6 @@
           <li>Source attribution, freshness, and direct-link routing on the actual product surface where available.</li>
         </ul>
       </div>
-      <div class="method-box">
-        <h2>What should stay internal</h2>
-        <ul class="section-list">
-          <li>Exact ingestion workflow, normalization rules, deduplication heuristics, and QA thresholds.</li>
-          <li>Feed candidates still under contract, licence, or risk review.</li>
-          <li>Internal partner-review notes, unpublished operator process, and backlog details.</li>
-          <li>Any recruiter contact data, personal data, or private review annotations.</li>
-        </ul>
-      </div>
       <p>Representative public-signal sources suitable for enrichment or reference:</p>
       <ul class="section-list">
         <li><a href="https://ec.europa.eu/eurostat/data/" rel="noopener noreferrer">Eurostat data</a> for wages, labour-market context, and comparable EU statistics.</li>
@@ -72,16 +63,6 @@
           <li><a href="https://www.openstreetmap.org/copyright" rel="noopener noreferrer">OpenStreetMap / Overpass</a> for transport-hub and walkability context, with attribution obligations.</li>
         </ul>
       </div>
-      <div class="method-box">
-        <h2>Privacy-safe analytics and ad surfaces</h2>
-        <ul class="section-list">
-          <li><a href="https://developers.cloudflare.com/web-analytics/about/" rel="noopener noreferrer">Cloudflare Web Analytics</a>: lowest-ops aggregate measurement lane.</li>
-          <li><a href="https://plausible.io/data-policy" rel="noopener noreferrer">Plausible</a>: privacy-first aggregate analytics with no behavioural profile model.</li>
-          <li><a href="https://usefathom.com/why-fathom-analytics/cookieless-analytics" rel="noopener noreferrer">Fathom</a>: another cookieless measurement surface.</li>
-          <li><a href="https://umami.is/docs" rel="noopener noreferrer">Umami</a>: self-hostable analytics if the lane should stay local-first.</li>
-          <li><a href="https://ethicalads.io/publishers/" rel="noopener noreferrer">EthicalAds</a> and <a href="https://www.carbonads.net/join/" rel="noopener noreferrer">Carbon Ads</a>: better later, after the site has repeat traffic and a stable layout.</li>
-        </ul>
-      </div>
       <p>Not in scope:</p>
       <ul class="section-list">
         <li>LinkedIn scraping</li>
@@ -90,9 +71,8 @@
         <li>Republished full news articles or large snippets</li>
       </ul>
       <div class="page-note">
-        Update cadence today is governed and manual. The long-term posture is deterministic refresh of
-        static product data with source attribution, freshness fields, and direct links back to the
-        original source rather than copied full listings.
+        In this beta, product data is refreshed in bounded batches with source attribution, freshness
+        fields, and direct links back to the original source rather than copied full listings.
       </div>
     </section>
   </main>
