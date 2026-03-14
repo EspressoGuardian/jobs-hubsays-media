@@ -7,6 +7,8 @@ const BOUNDS = {
 
 const LOCAL_STORAGE_KEY = "hubsays-live-work-map-weights";
 const LOCAL_PREFERENCE_KEY = "hubsays-live-work-map-preferences";
+const SAVED_JOBS_DB_NAME = "HubsaysRelocationCompass";
+const SAVED_JOBS_STORE = "saved_jobs";
 
 const filters = {
   country: "All",
@@ -49,11 +51,105 @@ let cities = [];
 let countries = [];
 let activeId = "";
 let activePreset = "all";
+let savedJobIds = new Set();
+let localVault = null;
 let compareState = {
   cityA: "",
   cityB: "",
   role: "All",
 };
+
+function openLocalVault() {
+  return new Promise((resolve) => {
+    if (!("indexedDB" in window)) {
+      resolve(null);
+      return;
+    }
+    const request = indexedDB.open(SAVED_JOBS_DB_NAME, 1);
+    request.onupgradeneeded = () => {
+      const db = request.result;
+      if (!db.objectStoreNames.contains(SAVED_JOBS_STORE)) {
+        db.createObjectStore(SAVED_JOBS_STORE, { keyPath: "id" });
+      }
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => resolve(null);
+  });
+}
+
+function loadSavedIds() {
+  return new Promise((resolve) => {
+    if (!localVault) {
+      savedJobIds = new Set();
+      resolve(savedJobIds);
+      return;
+    }
+    const transaction = localVault.transaction([SAVED_JOBS_STORE], "readonly");
+    const store = transaction.objectStore(SAVED_JOBS_STORE);
+    const request = store.getAllKeys();
+    request.onsuccess = () => {
+      savedJobIds = new Set((request.result || []).map((value) => String(value)));
+      resolve(savedJobIds);
+    };
+    request.onerror = () => {
+      savedJobIds = new Set();
+      resolve(savedJobIds);
+    };
+  });
+}
+
+function saveJobLocally(job) {
+  return new Promise((resolve) => {
+    if (!localVault) {
+      resolve(false);
+      return;
+    }
+    const transaction = localVault.transaction([SAVED_JOBS_STORE], "readwrite");
+    const store = transaction.objectStore(SAVED_JOBS_STORE);
+    store.put({
+      id: job.id,
+      title: job.title,
+      company: job.company,
+      city: job.city,
+      country: job.country,
+      saved_at: new Date().toISOString(),
+    });
+    transaction.oncomplete = async () => {
+      await loadSavedIds();
+      resolve(true);
+    };
+    transaction.onerror = () => resolve(false);
+  });
+}
+
+function removeSavedJob(jobId) {
+  return new Promise((resolve) => {
+    if (!localVault) {
+      resolve(false);
+      return;
+    }
+    const transaction = localVault.transaction([SAVED_JOBS_STORE], "readwrite");
+    const store = transaction.objectStore(SAVED_JOBS_STORE);
+    store.delete(jobId);
+    transaction.oncomplete = async () => {
+      await loadSavedIds();
+      resolve(true);
+    };
+    transaction.onerror = () => resolve(false);
+  });
+}
+
+async function toggleSavedJob(jobId) {
+  if (savedJobIds.has(jobId)) {
+    await removeSavedJob(jobId);
+  } else {
+    const job = jobs.find((row) => row.id === jobId);
+    if (job) {
+      await saveJobLocally(job);
+    }
+  }
+  render();
+}
 
 function templateFor(job) {
   const category = String(job?.category || "").toLowerCase();
@@ -562,6 +658,14 @@ function renderCityInsights(items) {
   summary.textContent = `${top.city} currently leads this filtered view for practical relocation fit: ${top.visible_jobs} visible jobs, move score ${top.move_score}, and ${top.housing_pressure.toLowerCase()} housing pressure in the current beta dataset.`;
 }
 
+function saveButtonLabel(jobId) {
+  return savedJobIds.has(jobId) ? "Saved on this device" : "Save locally";
+}
+
+function saveButtonClass(jobId) {
+  return savedJobIds.has(jobId) ? "save-button is-saved" : "save-button";
+}
+
 function renderJobs(items) {
   const root = document.getElementById("job-list");
   root.innerHTML = "";
@@ -587,10 +691,17 @@ function renderJobs(items) {
       <p>${job.summary}</p>
       <p><strong>Best fit:</strong> ${job.fit}</p>
       <p><strong>Hiring signal:</strong> ${job.hiring_signal_summary || "Lifecycle data is not available yet in this beta."}</p>
+      <div class="job-card-actions">
+        <button type="button" class="${saveButtonClass(job.id)}" data-job-id="${job.id}">${saveButtonLabel(job.id)}</button>
+      </div>
     `;
     article.addEventListener("click", () => {
       activeId = job.id;
       render();
+    });
+    article.querySelector(".save-button").addEventListener("click", async (event) => {
+      event.stopPropagation();
+      await toggleSavedJob(job.id);
     });
     root.appendChild(article);
   });
@@ -631,9 +742,106 @@ function renderSelected(job) {
       and it should never promise sponsorship or hiring outcomes.
     </div>
     <div class="action-list">
+      <button type="button" class="${saveButtonClass(job.id)}" id="selected-save-button">${saveButtonLabel(job.id)}</button>
       <a class="action-link" href="${template.href}">${template.label}</a>
     </div>
   `;
+  root.querySelector("#selected-save-button").addEventListener("click", async () => {
+    await toggleSavedJob(job.id);
+  });
+}
+
+function renderSavedJobs() {
+  const root = document.getElementById("saved-jobs");
+  if (!root) {
+    return;
+  }
+  root.innerHTML = "";
+  const saved = jobs.filter((job) => savedJobIds.has(job.id));
+  if (!saved.length) {
+    root.innerHTML = "<p class=\"saved-empty\">No saved roles yet. Save the shortlist you want to re-check later on this device.</p>";
+    return;
+  }
+  saved
+    .sort((left, right) => personalFitForJob(right) - personalFitForJob(left))
+    .forEach((job) => {
+      const article = document.createElement("article");
+      article.className = "saved-job-card";
+      article.innerHTML = `
+        <div class="saved-job-card-head">
+          <div>
+            <div class="eyebrow">${job.company}</div>
+            <h3>${job.title}</h3>
+          </div>
+          <div class="saved-tag">Fit ${personalFitForJob(job)}</div>
+        </div>
+        <p>${job.city}, ${job.country}</p>
+        <div class="job-card-actions">
+          <button type="button" class="ghost-button focus-saved">Open role</button>
+          <button type="button" class="save-button is-saved remove-saved">Remove</button>
+        </div>
+      `;
+      article.querySelector(".focus-saved").addEventListener("click", () => {
+        activeId = job.id;
+        render();
+      });
+      article.querySelector(".remove-saved").addEventListener("click", async () => {
+        await removeSavedJob(job.id);
+        render();
+      });
+      root.appendChild(article);
+    });
+}
+
+function renderPulse(items) {
+  const root = document.getElementById("pulse-feed");
+  const stamp = document.getElementById("pulse-updated-at");
+  if (!root) {
+    return;
+  }
+  const ranked = rankedCities(items);
+  const topCity = ranked[0] || null;
+  const freshest = [...items].sort((left, right) => Number(left.days_open || 0) - Number(right.days_open || 0))[0] || null;
+  const highFit = items.filter((job) => personalFitForJob(job) >= 82).length;
+  const visaAware = items.filter((job) => visaAwareJob(job)).length;
+  const persistent = items.filter((job) => hiringSignalLabel(job) === "Persistent listing").length;
+  const pulseItems = [
+    topCity && {
+      tag: "Lead",
+      title: `${topCity.city} is leading the current relocation slice`,
+      body: `${topCity.visible_jobs} visible roles, move score ${topCity.move_score}, and ${topCity.housing_pressure.toLowerCase()} housing pressure in the filtered view.`,
+    },
+    freshest && {
+      tag: "Fresh",
+      title: `${freshest.title} at ${freshest.company} is the freshest visible role`,
+      body: `Last verified ${formatSignalDate(freshest.last_verified)} with ${freshest.days_open || 0} days open and a personal-fit score of ${personalFitForJob(freshest)}.`,
+    },
+    {
+      tag: "Visa",
+      title: `${visaAware} visa-aware roles are currently visible`,
+      body: `${new Set(items.filter((job) => visaAwareJob(job)).map((job) => job.country)).size} countries remain viable in the current slice for visa-aware routing.`,
+    },
+    {
+      tag: "Watch",
+      title: `${persistent} persistent listings need stronger source checks`,
+      body: persistent ? "Treat older or reposted roles as watchlist items and verify them at source before spending application time." : "No persistent listings are visible in the current slice right now.",
+    },
+    {
+      tag: "Local",
+      title: `${savedJobIds.size} saved role${savedJobIds.size === 1 ? "" : "s"} stay on this device only`,
+      body: "Decision Desk preferences and saved jobs remain browser-local. There is no user account or server-side shortlist in this beta.",
+    },
+  ].filter(Boolean);
+  stamp.textContent = `Pulse refreshed ${new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Amsterdam" })}`;
+  root.innerHTML = pulseItems.map((item) => `
+    <article class="pulse-card">
+      <div class="pulse-card-head">
+        <strong class="pulse-title">${item.title}</strong>
+        <span class="pulse-tag">${item.tag}</span>
+      </div>
+      <p>${item.body}</p>
+    </article>
+  `).join("");
 }
 
 function compareCityMetric(cityKey, roleLens) {
@@ -900,10 +1108,14 @@ function render() {
   renderMap(items);
   renderJobs(items);
   renderSelected(active);
+  renderPulse(items);
+  renderSavedJobs();
   renderCompareWorkbench();
 }
 
 async function main() {
+  localVault = await openLocalVault();
+  await loadSavedIds();
   [jobs, cities, countries] = await Promise.all([
     fetch("./data/jobs.json").then((response) => response.json()),
     fetch("./data/cities.json").then((response) => response.json()),

@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Data Sources | Hubsays Jobs Map</title>
+  <script src="../theme.js"></script>
   <link rel="stylesheet" href="../styles.css" />
 </head>
 <body>
@@ -42,6 +43,46 @@
         <li><a href="https://eures.europa.eu/index_en" rel="noopener noreferrer">EURES</a> for official EU job-mobility context and public employment signals.</li>
         <li><a href="https://www.make-it-in-germany.com/en/visa-residence/opportunity-card/job-search" rel="noopener noreferrer">Make it in Germany: Opportunity Card</a> for current Germany job-search visa guidance.</li>
       </ul>
+      <div class="method-box">
+        <h2>Strict no-obligation lane</h2>
+        <p>
+          If “no obligations required” is interpreted strictly, the usable all-EU source set is much
+          smaller than people expect. Current clean candidates for this lane are:
+        </p>
+        <ul class="section-list">
+          <li><a href="https://www.wikidata.org/wiki/Wikidata:Licensing" rel="noopener noreferrer">Wikidata</a> for CC0 entity facts such as city, airport, and transport-hub metadata.</li>
+          <li><a href="https://ourairports.com/data/" rel="noopener noreferrer">OurAirports</a> for public-domain airport metadata and downloadable airport tables.</li>
+        </ul>
+        <p>
+          Those sources are suitable for zero-signup infrastructure signals such as nearest airport,
+          airport code, or major transport-node context.
+        </p>
+      </div>
+      <div class="method-box">
+        <h2>Free but attribution-required lane</h2>
+        <p>
+          Most of the genuinely valuable EU-wide data lives here instead. It is still free and usable,
+          but not obligation-free. Examples:
+        </p>
+        <ul class="section-list">
+          <li><a href="https://ec.europa.eu/eurostat/data/" rel="noopener noreferrer">Eurostat</a> for labour, wage, cost, and unemployment context.</li>
+          <li><a href="https://www.ecb.europa.eu/stats/ecb_statistics/html/index.en.html" rel="noopener noreferrer">European Central Bank data portal</a> for macro and currency context.</li>
+          <li><a href="https://www.eea.europa.eu/en/datahub" rel="noopener noreferrer">European Environment Agency data hub</a> for air-quality, climate, and noise layers.</li>
+          <li><a href="https://data.europa.eu/en" rel="noopener noreferrer">data.europa.eu</a> as a master portal for many EU public datasets, each with its own licence.</li>
+          <li><a href="https://open-meteo.com/en/docs" rel="noopener noreferrer">Open-Meteo</a> for weather and forecast signals if attribution fits the product posture.</li>
+          <li><a href="https://www.openstreetmap.org/copyright" rel="noopener noreferrer">OpenStreetMap / Overpass</a> for transport-hub and walkability context, with attribution obligations.</li>
+        </ul>
+      </div>
+      <div class="method-box">
+        <h2>Privacy-safe analytics and ad surfaces</h2>
+        <ul class="section-list">
+          <li><a href="https://developers.cloudflare.com/web-analytics/about/" rel="noopener noreferrer">Cloudflare Web Analytics</a>: lowest-ops aggregate measurement lane.</li>
+          <li><a href="https://plausible.io/data-policy" rel="noopener noreferrer">Plausible</a>: privacy-first aggregate analytics with no behavioural profile model.</li>
+          <li><a href="https://usefathom.com/why-fathom-analytics/cookieless-analytics" rel="noopener noreferrer">Fathom</a>: another cookieless measurement surface.</li>
+          <li><a href="https://umami.is/docs" rel="noopener noreferrer">Umami</a>: self-hostable analytics if the lane should stay local-first.</li>
+          <li><a href="https://ethicalads.io/publishers/" rel="noopener noreferrer">EthicalAds</a> and <a href="https://www.carbonads.net/join/" rel="noopener noreferrer">Carbon Ads</a>: better later, after the site has repeat traffic and a stable layout.</li>
+        </ul>
+      </div>
       <p>Not in scope:</p>
       <ul class="section-list">
         <li>LinkedIn scraping</li>

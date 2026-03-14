@@ -16,6 +16,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://jobs.hubsays.media/" />
   <meta name="theme-color" content="#173847" />
+  <script src="./theme.js"></script>
   <link rel="stylesheet" href="./styles.css" />
   <script type="application/ld+json">
     {
@@ -39,11 +40,21 @@
 <body>
   <main>
     <section class="notice-strip panel">
-      <div>
+      <div class="notice-copy">
         <strong>Public beta:</strong> This is a static relocation-intelligence layer, not a recruiter,
         applicant tracker, or candidate database.
       </div>
-      <a class="notice-link" href="./pages/methodology.html">How it works</a>
+      <div class="notice-actions">
+        <label class="theme-control" for="theme-mode">
+          <span>Theme</span>
+          <select id="theme-mode" aria-label="Theme mode">
+            <option value="system">System</option>
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+          </select>
+        </label>
+        <a class="notice-link" href="./pages/methodology.html">How it works</a>
+      </div>
     </section>
 
     <section class="hero panel">
@@ -365,6 +376,26 @@
             <li>Visa, language, and hiring-signal fields are decision support only, never guarantees.</li>
             <li>Correction and removal requests should stay visible and easy to use.</li>
           </ul>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Daily Pulse</h2>
+            <div class="footnote" id="pulse-updated-at">Refreshing from the current slice…</div>
+          </div>
+          <div class="pulse-feed" id="pulse-feed"></div>
+          <div class="micro-note">
+            Retention posture: daily checks should come from useful market changes, not notifications,
+            logins, or feed addiction tricks.
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Saved Roles</h2>
+            <div class="footnote">Stored on this device only</div>
+          </div>
+          <div class="saved-jobs" id="saved-jobs"></div>
         </section>
 
         <section class="panel">

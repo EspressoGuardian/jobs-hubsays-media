@@ -18,7 +18,7 @@
     "last_verified": "2026-03-13",
     "repost_count": 0,
     "days_open": 9,
-    "hiring_signal_summary": "Fresh listing in the current beta with no repeat repost pattern yet."
+    "hiring_signal_summary": "Fresh listing in the current beta lane with no repeat repost pattern yet."
   },
   {
     "id": "nl-english-ops",
@@ -55,7 +55,7 @@
     "lon": 13.405,
     "summary": "German-speaking backend role in a product-led software environment.",
     "fit": "Developers who want German-market roles with stronger local-language expectations.",
-    "visa_note": "Local-language role first; not a clear expat sponsorship signal.",
+    "visa_note": "Local-language role first; not a clean expat sponsorship wedge.",
     "first_seen": "2026-01-30",
     "last_verified": "2026-03-13",
     "repost_count": 2,
@@ -97,7 +97,7 @@
     "lon": 9.19,
     "summary": "Italian-speaking growth role for a digital products team with international clients.",
     "fit": "Italian speakers who want a local-market role with modern remote tooling.",
-    "visa_note": "Language-specific local-market role, not positioned as a visa-first path.",
+    "visa_note": "Language-specific local-market role, not positioned as a visa-first lane.",
     "first_seen": "2026-02-25",
     "last_verified": "2026-03-13",
     "repost_count": 1,
@@ -223,7 +223,7 @@
     "lon": 16.3738,
     "summary": "German-speaking finance role with a traditional local-market hiring profile.",
     "fit": "Candidates who want DACH-region roles and German-language matching.",
-    "visa_note": "Traditional local-market hiring profile; not an expat-first fit.",
+    "visa_note": "Traditional local-market hiring profile; not an expat-first wedge.",
     "first_seen": "2026-02-03",
     "last_verified": "2026-03-13",
     "repost_count": 2,
@@ -249,7 +249,7 @@
     "last_verified": "2026-03-13",
     "repost_count": 0,
     "days_open": 12,
-    "hiring_signal_summary": "Fresh engineering listing with no repeat repost evidence in the current beta."
+    "hiring_signal_summary": "Fresh engineering listing with no repeat repost evidence in the current beta lane."
   },
   {
     "id": "nl-ai-ml",
@@ -285,7 +285,7 @@
     "lat": 52.0907,
     "lon": 5.1214,
     "summary": "AI product role connecting model teams, workflow automation, and international operator needs.",
-    "fit": "Useful fit for English-speaking PMs with AI or SaaS experience.",
+    "fit": "Useful wedge for English-speaking PMs with AI or SaaS experience.",
     "visa_note": "Knowledge-work profile and English-first posture make sponsorship more plausible than average.",
     "first_seen": "2026-02-09",
     "last_verified": "2026-03-13",
