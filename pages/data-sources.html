@@ -13,30 +13,29 @@
       <a class="back-link" href="../index.html">Back to map</a>
       <h1>Data Sources</h1>
       <p>
-        Current beta posture: static JSON files maintained in-repo, short source-first summaries, and
-        direct-link routing rather than copied full job descriptions.
+        Hubsays is designed as a source-first navigation layer. Public pages should explain the source
+        classes behind the product, the licence posture, and the fact that users should verify role
+        details at the original source.
       </p>
-      <p>Current structured layers in this beta:</p>
-      <ul class="section-list">
-        <li><code>data/jobs.json</code>: seeded role metadata for public-beta testing of filters, compare logic, and relocation scoring.</li>
-        <li><code>data/cities.json</code>: city-level relocation signals such as rent pressure, English friendliness, and move-score inputs.</li>
-        <li><code>data/countries.json</code>: country-level context used by the index and compare views.</li>
-      </ul>
-      <p>Approved source posture for expansion:</p>
-      <ul class="section-list">
-        <li>Official company career pages</li>
-        <li>Structured ATS endpoints such as Greenhouse, Lever, Workable, Recruitee, and Teamtailor where allowed</li>
-        <li>Approved partner APIs and feeds reviewed against contract, attribution, and privacy risk</li>
-        <li>Dutch sponsor lists and public-registry enrichment where they add a real factual signal</li>
-        <li>Official or public statistical layers for relocation context, not fake precision</li>
-      </ul>
-      <p>Examples of the next feed classes under review, not all live yet:</p>
-      <ul class="section-list">
-        <li>Public ATS exports with clean metadata contracts</li>
-        <li>Approved remote-job APIs such as Jobicy where the feed can be normalized honestly</li>
-        <li>Public city/country datasets that improve rent-pressure and relocation context</li>
-      </ul>
-      <p>Official public-signal sources already suitable for enrichment or reference:</p>
+      <div class="method-box">
+        <h2>What should be public-facing</h2>
+        <ul class="section-list">
+          <li>High-level source classes such as official employer pages, structured ATS endpoints, official public statistics, and factual infrastructure datasets.</li>
+          <li>Representative source links so users can see the kind of public data being used.</li>
+          <li>Licence posture: public-domain first where possible, attribution-required sources called out clearly where used.</li>
+          <li>Source attribution, freshness, and direct-link routing on the actual product surface where available.</li>
+        </ul>
+      </div>
+      <div class="method-box">
+        <h2>What should stay internal</h2>
+        <ul class="section-list">
+          <li>Exact ingestion workflow, normalization rules, deduplication heuristics, and QA thresholds.</li>
+          <li>Feed candidates still under contract, licence, or risk review.</li>
+          <li>Internal partner-review notes, unpublished operator process, and backlog details.</li>
+          <li>Any recruiter contact data, personal data, or private review annotations.</li>
+        </ul>
+      </div>
+      <p>Representative public-signal sources suitable for enrichment or reference:</p>
       <ul class="section-list">
         <li><a href="https://ec.europa.eu/eurostat/data/" rel="noopener noreferrer">Eurostat data</a> for wages, labour-market context, and comparable EU statistics.</li>
         <li><a href="https://www.oecdbetterlifeindex.org/" rel="noopener noreferrer">OECD Better Life Index</a> for quality-of-life and well-being context.</li>
@@ -62,7 +61,7 @@
         <h2>Free but attribution-required lane</h2>
         <p>
           Most of the genuinely valuable EU-wide data lives here instead. It is still free and usable,
-          but not obligation-free. Examples:
+          but not obligation-free. Examples include weather, transport, and official statistical layers.
         </p>
         <ul class="section-list">
           <li><a href="https://ec.europa.eu/eurostat/data/" rel="noopener noreferrer">Eurostat</a> for labour, wage, cost, and unemployment context.</li>
@@ -92,7 +91,8 @@
       </ul>
       <div class="page-note">
         Update cadence today is governed and manual. The long-term posture is deterministic refresh of
-        static JSON with source attribution, freshness fields, and direct links back to the original source.
+        static product data with source attribution, freshness fields, and direct links back to the
+        original source rather than copied full listings.
       </div>
     </section>
   </main>
