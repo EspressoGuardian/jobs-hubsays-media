@@ -15,7 +15,8 @@
   />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://jobs.hubsays.media/" />
-  <meta name="theme-color" content="#173847" />
+  <meta name="theme-color" content="#153645" />
+  <meta name="color-scheme" content="light dark" />
   <script src="./theme.js"></script>
   <link rel="stylesheet" href="./styles.css" />
   <script type="application/ld+json">
@@ -216,33 +217,44 @@
       </div>
     </section>
 
-    <section class="panel filters">
-      <h2>Filters</h2>
+    <section class="panel filters" id="guided-setup">
+      <div class="panel-head">
+        <h2>Guided Setup</h2>
+        <div class="footnote">Answer the questions, narrow the city list by country, save the setup locally, or reset and try again.</div>
+      </div>
       <div class="filter-grid">
         <label>
-          <span>Country</span>
+          <span>Which country do you want to test first?</span>
           <select id="country-filter"></select>
         </label>
         <label>
-          <span>City</span>
+          <span>Which city lane should stay in scope?</span>
           <select id="city-filter"></select>
         </label>
         <label>
-          <span>Language</span>
+          <span>Which language track matters most?</span>
           <select id="language-filter"></select>
         </label>
         <label>
-          <span>Work mode</span>
+          <span>What work mode are you aiming for?</span>
           <select id="mode-filter"></select>
         </label>
         <label>
-          <span>Category</span>
+          <span>What role lens are you testing?</span>
           <select id="category-filter"></select>
         </label>
         <label>
-          <span>Visa path</span>
+          <span>Do you need a specific visa path signal?</span>
           <select id="visa-filter"></select>
         </label>
+      </div>
+      <div class="job-card-actions setup-actions">
+        <button type="button" class="ghost-button" id="save-setup-button">Save setup locally</button>
+        <button type="button" class="ghost-button" id="copy-share-button">Copy shareable link</button>
+        <button type="button" class="ghost-button" id="reset-setup-button">Reset setup</button>
+      </div>
+      <div class="micro-note" id="guided-summary">
+        Guided setup stays local. Country choice narrows the city lane automatically, and shareable links reflect the current browser-side filter and Decision Desk state.
       </div>
     </section>
 

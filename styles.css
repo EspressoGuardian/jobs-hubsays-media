@@ -1,60 +1,60 @@
 :root,
 :root[data-theme="light"],
 :root[data-theme="system"] {
-  --bg: #f4f0e8;
-  --panel: rgba(255, 251, 245, 0.94);
-  --ink: #1c1a17;
-  --muted: #5f594f;
-  --line: #d7cab8;
-  --accent: #176087;
-  --accent-soft: #d9edf7;
-  --accent-deep: #0d3246;
-  --accent-bright: #0d8a62;
-  --warn: #bf6b2d;
-  --dot: #bf4c2d;
-  --dot-active: #0d8a62;
-  --panel-solid: rgba(255, 255, 255, 0.84);
-  --card-grad-start: rgba(255, 255, 255, 0.94);
-  --card-grad-end: rgba(247, 242, 234, 0.9);
+  --bg: #edf2ef;
+  --panel: rgba(249, 247, 242, 0.94);
+  --ink: #16242d;
+  --muted: #58666d;
+  --line: #ccd8da;
+  --accent: #0d667d;
+  --accent-soft: #dcedf1;
+  --accent-deep: #153645;
+  --accent-bright: #16846f;
+  --warn: #bf7a3d;
+  --dot: #c75b3f;
+  --dot-active: #16846f;
+  --panel-solid: rgba(255, 255, 255, 0.86);
+  --card-grad-start: rgba(255, 255, 255, 0.95);
+  --card-grad-end: rgba(241, 245, 241, 0.92);
   color-scheme: light;
 }
 
 :root[data-theme="dark"] {
-  --bg: #09131a;
-  --panel: rgba(13, 25, 33, 0.92);
-  --ink: #ecf2f4;
-  --muted: #a7b6bb;
-  --line: #1d3640;
-  --accent: #68d0ff;
-  --accent-soft: rgba(21, 73, 99, 0.42);
-  --accent-deep: #d9f6ff;
-  --accent-bright: #43c889;
-  --warn: #f0ab63;
-  --dot: #ef7e59;
-  --dot-active: #43c889;
-  --panel-solid: rgba(10, 20, 27, 0.9);
-  --card-grad-start: rgba(15, 28, 36, 0.94);
-  --card-grad-end: rgba(10, 18, 24, 0.92);
+  --bg: #071219;
+  --panel: rgba(11, 22, 29, 0.92);
+  --ink: #edf3f5;
+  --muted: #9fb3bb;
+  --line: #1f3944;
+  --accent: #77d5de;
+  --accent-soft: rgba(22, 76, 94, 0.42);
+  --accent-deep: #d8f6f7;
+  --accent-bright: #4dcea2;
+  --warn: #e6ad70;
+  --dot: #f08a63;
+  --dot-active: #4dcea2;
+  --panel-solid: rgba(10, 20, 26, 0.9);
+  --card-grad-start: rgba(14, 27, 35, 0.95);
+  --card-grad-end: rgba(9, 18, 24, 0.93);
   color-scheme: dark;
 }
 
 @media (prefers-color-scheme: dark) {
   :root[data-theme="system"] {
-    --bg: #09131a;
-    --panel: rgba(13, 25, 33, 0.92);
-    --ink: #ecf2f4;
-    --muted: #a7b6bb;
-    --line: #1d3640;
-    --accent: #68d0ff;
-    --accent-soft: rgba(21, 73, 99, 0.42);
-    --accent-deep: #d9f6ff;
-    --accent-bright: #43c889;
-    --warn: #f0ab63;
-    --dot: #ef7e59;
-    --dot-active: #43c889;
-    --panel-solid: rgba(10, 20, 27, 0.9);
-    --card-grad-start: rgba(15, 28, 36, 0.94);
-    --card-grad-end: rgba(10, 18, 24, 0.92);
+    --bg: #071219;
+    --panel: rgba(11, 22, 29, 0.92);
+    --ink: #edf3f5;
+    --muted: #9fb3bb;
+    --line: #1f3944;
+    --accent: #77d5de;
+    --accent-soft: rgba(22, 76, 94, 0.42);
+    --accent-deep: #d8f6f7;
+    --accent-bright: #4dcea2;
+    --warn: #e6ad70;
+    --dot: #f08a63;
+    --dot-active: #4dcea2;
+    --panel-solid: rgba(10, 20, 26, 0.9);
+    --card-grad-start: rgba(14, 27, 35, 0.95);
+    --card-grad-end: rgba(9, 18, 24, 0.93);
     color-scheme: dark;
   }
 }
@@ -63,10 +63,11 @@
 
 body {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: "Avenir Next", "Segoe UI Variable Text", "Trebuchet MS", "Gill Sans", sans-serif;
+  line-height: 1.5;
   color: var(--ink);
   background:
-    radial-gradient(circle at top left, rgba(217, 237, 247, 0.68) 0, transparent 34%),
+    radial-gradient(circle at top left, rgba(220, 237, 241, 0.72) 0, transparent 34%),
     linear-gradient(180deg, color-mix(in srgb, var(--bg) 72%, white) 0, var(--bg) 100%);
 }
 
@@ -124,6 +125,9 @@ main {
   min-width: 96px;
   padding: 6px 8px;
   border-radius: 999px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--panel-solid) 88%, white);
+  color: var(--ink);
 }
 
 .nav-links,
@@ -170,7 +174,8 @@ main {
   border: 1px solid var(--line);
   border-radius: 18px;
   padding: 22px;
-  box-shadow: 0 10px 30px rgba(48, 36, 18, 0.08);
+  box-shadow: 0 14px 34px rgba(18, 28, 33, 0.08);
+  backdrop-filter: blur(10px);
 }
 
 .eyebrow {
@@ -187,6 +192,8 @@ main {
 h1, h2, h3 {
   margin: 0 0 12px;
   line-height: 1.1;
+  font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  letter-spacing: -0.02em;
 }
 
 .lede, p, li, label span, .footnote {
@@ -987,6 +994,10 @@ a {
   color: var(--accent);
   font: inherit;
   cursor: pointer;
+}
+
+.setup-actions {
+  flex-wrap: wrap;
 }
 
 .save-button.is-saved {
