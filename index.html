@@ -47,45 +47,83 @@
     </section>
 
     <section class="hero panel">
-      <div class="eyebrow">Public beta</div>
-      <h1>Find English-friendly EU jobs you can actually afford.</h1>
-      <p class="lede">
-        Hubsays helps internationals compare jobs, housing pressure, and relocation realism without
-        login walls, spam funnels, or a personal-data warehouse.
-      </p>
-      <div class="trust-strip" aria-label="Trust signals">
-        <span class="trust-pill">No account required</span>
-        <span class="trust-pill">No CV uploads</span>
-        <span class="trust-pill">Zero-data posture</span>
-        <span class="trust-pill">Apply at source only</span>
+      <div class="hero-stage">
+        <div class="hero-copy">
+          <div class="eyebrow">Public beta</div>
+          <h1>Find English-friendly EU jobs you can actually afford.</h1>
+          <p class="lede">
+            Hubsays helps internationals compare jobs, housing pressure, and relocation realism without
+            login walls, spam funnels, or a personal-data warehouse.
+          </p>
+          <div class="trust-strip" aria-label="Trust signals">
+            <span class="trust-pill">No account required</span>
+            <span class="trust-pill">No CV uploads</span>
+            <span class="trust-pill">Zero-data posture</span>
+            <span class="trust-pill">Apply at source only</span>
+          </div>
+          <div class="hero-actions">
+            <a class="action-link" href="#jobs-map">Open live map</a>
+            <a class="action-link" href="./compare/cities/amsterdam-nl-vs-berlin-de.html">Browse compare pages</a>
+            <a class="action-link" href="#decision-desk">Use Decision Desk</a>
+          </div>
+          <nav class="nav-links" aria-label="Preview policy links">
+            <a href="./pages/about.html">About</a>
+            <a href="./index-2026.html">Index 2026</a>
+            <a href="./pages/methodology.html">Methodology</a>
+            <a href="./pages/faq.html">FAQ</a>
+            <a href="./pages/data-sources.html">Data sources</a>
+            <a href="./privacy.html">Privacy</a>
+            <a href="./pages/terms.html">Terms</a>
+          </nav>
+          <div class="hero-grid">
+            <div>
+              <div class="metric" id="job-count">14</div>
+              <p class="footnote">seeded jobs in the current beta dataset</p>
+            </div>
+            <div>
+              <div class="metric" id="country-count">9</div>
+              <p class="footnote">countries covered</p>
+            </div>
+            <div>
+              <div class="metric" id="language-count">3</div>
+              <p class="footnote">language tracks</p>
+            </div>
+          </div>
+        </div>
+        <aside class="hero-compass">
+          <div class="eyebrow">Relocation compass</div>
+          <h2>Start with the fastest honest answer</h2>
+          <p>
+            This product is strongest when it helps you decide where to focus first, then leave for the
+            real source.
+          </p>
+          <div class="compass-grid">
+            <article class="compass-card">
+              <span class="compass-label">Top city now</span>
+              <strong id="hero-top-city">Loading city signal…</strong>
+            </article>
+            <article class="compass-card">
+              <span class="compass-label">Top country now</span>
+              <strong id="hero-top-country">Loading country signal…</strong>
+            </article>
+            <article class="compass-card">
+              <span class="compass-label">Map posture</span>
+              <strong>Privacy-safe atlas</strong>
+              <p>No third-party map tiles, no account system, no application funnel.</p>
+            </article>
+            <article class="compass-card">
+              <span class="compass-label">What the score blends</span>
+              <strong>Jobs + rent + language + visa</strong>
+              <p>Directional signals only, designed to narrow down the next realistic move.</p>
+            </article>
+          </div>
+        </aside>
       </div>
-      <div class="hero-actions">
-        <a class="action-link" href="#jobs-map">Open live map</a>
-        <a class="action-link" href="./compare/cities/amsterdam-nl-vs-berlin-de.html">Browse compare pages</a>
-        <a class="action-link" href="#decision-desk">Use Decision Desk</a>
-      </div>
-      <nav class="nav-links" aria-label="Preview policy links">
-        <a href="./pages/about.html">About</a>
-        <a href="./index-2026.html">Index 2026</a>
-        <a href="./pages/methodology.html">Methodology</a>
-        <a href="./pages/faq.html">FAQ</a>
-        <a href="./pages/data-sources.html">Data sources</a>
-        <a href="./privacy.html">Privacy</a>
-        <a href="./pages/terms.html">Terms</a>
-      </nav>
-      <div class="hero-grid">
-        <div>
-          <div class="metric" id="job-count">14</div>
-          <p class="footnote">seeded jobs in the current beta dataset</p>
-        </div>
-        <div>
-          <div class="metric" id="country-count">9</div>
-          <p class="footnote">countries covered</p>
-        </div>
-        <div>
-          <div class="metric" id="language-count">3</div>
-          <p class="footnote">language tracks</p>
-        </div>
+      <div class="section-rail" aria-label="Quick section navigation">
+        <a class="rail-link" href="#decision-desk">Decision Desk</a>
+        <a class="rail-link" href="#jobs-map">Jobs Map</a>
+        <a class="rail-link" href="#compare-workbench">Compare</a>
+        <a class="rail-link" href="#filtered-roles">Filtered roles</a>
       </div>
     </section>
 
@@ -284,15 +322,37 @@
           <h2>Jobs Map</h2>
           <div class="stamp" id="updated-at"></div>
         </div>
+        <div class="map-brief">
+          <p class="micro-note map-micro-note" id="map-fit-summary">
+            The atlas below stays first-party: markers are rendered from local JSON and current browser-side fit logic.
+          </p>
+          <div class="map-legend" aria-label="Map legend">
+            <span class="legend-item"><span class="legend-dot legend-dot--high"></span> High fit</span>
+            <span class="legend-item"><span class="legend-dot legend-dot--mid"></span> Medium fit</span>
+            <span class="legend-item"><span class="legend-dot legend-dot--low"></span> Watchlist fit</span>
+            <span class="legend-item"><span class="legend-dot legend-dot--persistent"></span> Persistent listing</span>
+          </div>
+        </div>
         <div class="map-shell">
           <div class="map-background"></div>
+          <div class="map-city-labels" aria-hidden="true">
+            <span class="map-city-label" style="left:35%; top:33%;">Amsterdam</span>
+            <span class="map-city-label" style="left:47%; top:27%;">Berlin</span>
+            <span class="map-city-label" style="left:41%; top:42%;">Paris</span>
+            <span class="map-city-label" style="left:45%; top:36%;">Eindhoven</span>
+            <span class="map-city-label" style="left:57%; top:58%;">Rome</span>
+            <span class="map-city-label" style="left:28%; top:64%;">Lisbon</span>
+          </div>
           <div class="map-bounds" id="map-bounds"></div>
         </div>
       </section>
 
       <aside class="sidebar">
-        <section class="panel">
-          <h2>Selected Role</h2>
+        <section class="panel selected-role-panel">
+          <div class="panel-head">
+            <h2>Selected Role</h2>
+            <div class="footnote">Sticky decision sidecar</div>
+          </div>
           <div id="selected-role" class="selected-role"></div>
         </section>
 
@@ -317,7 +377,7 @@
       </aside>
     </section>
 
-    <section class="panel">
+    <section class="panel" id="compare-workbench">
       <div class="panel-head">
         <h2>City vs City Workbench</h2>
         <div class="footnote">Structured compare pages with rent-adjusted salary snapshots and relocation context.</div>
@@ -346,7 +406,7 @@
       <div class="compare-ppp" id="compare-ppp"></div>
     </section>
 
-    <section class="panel">
+    <section class="panel" id="filtered-roles">
       <div class="panel-head">
         <h2>First Compare Pages</h2>
         <div class="footnote">Static compare pages first, full generated compare engine later.</div>

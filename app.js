@@ -164,14 +164,32 @@ function renderPresets() {
 function renderMap(items) {
   const root = document.getElementById("map-bounds");
   root.innerHTML = "";
+  const highFitCount = items.filter((job) => personalFitForJob(job) >= 82).length;
+  const countrySpread = new Set(items.map((job) => job.country)).size;
+  const summary = document.getElementById("map-fit-summary");
+  if (summary) {
+    summary.textContent = `${items.length} roles are currently visible across ${countrySpread} countr${countrySpread === 1 ? "y" : "ies"} in this filtered view, with ${highFitCount} high-fit markers. The map stays first-party and tile-free for privacy.`;
+  }
   items.forEach((job) => {
+    const fit = personalFitForJob(job);
+    const signalLabel = hiringSignalLabel(job);
     const marker = document.createElement("button");
-    marker.className = `marker${job.id === activeId ? " active" : ""}`;
+    let tone = "marker--low";
+    let size = 14;
+    if (fit >= 82) {
+      tone = "marker--high";
+      size = 20;
+    } else if (fit >= 68) {
+      tone = "marker--mid";
+      size = 17;
+    }
+    marker.className = `marker ${tone}${signalLabel === "Persistent listing" ? " marker--persistent" : ""}${job.id === activeId ? " active" : ""}`;
     marker.type = "button";
-    marker.title = `${job.title} · ${job.city}, ${job.country}`;
+    marker.title = `${job.title} · ${job.city}, ${job.country} · fit ${fit}`;
     const point = projectPoint(job.lon, job.lat);
     marker.style.left = `${point.x}%`;
     marker.style.top = `${point.y}%`;
+    marker.style.setProperty("--marker-size", `${size}px`);
     marker.addEventListener("click", () => {
       activeId = job.id;
       render();
@@ -766,12 +784,22 @@ function renderCompareWorkbench() {
 function renderIndexSummary() {
   const topCity = [...cities].sort((left, right) => right.scores.overall_score_default_weights - left.scores.overall_score_default_weights)[0];
   const topCountry = [...countries].sort((left, right) => right.scores.overall_score_default_weights - left.scores.overall_score_default_weights)[0];
-  document.getElementById("index-top-city").textContent = topCity
+  const topCityText = topCity
     ? `${topCity.city}, ${topCity.country} (${Math.round(topCity.scores.overall_score_default_weights * 100)})`
     : "No city data loaded";
-  document.getElementById("index-top-country").textContent = topCountry
+  const topCountryText = topCountry
     ? `${topCountry.name} (${Math.round(topCountry.scores.overall_score_default_weights * 100)})`
     : "No country data loaded";
+  document.getElementById("index-top-city").textContent = topCityText;
+  document.getElementById("index-top-country").textContent = topCountryText;
+  const heroTopCity = document.getElementById("hero-top-city");
+  const heroTopCountry = document.getElementById("hero-top-country");
+  if (heroTopCity) {
+    heroTopCity.textContent = topCityText;
+  }
+  if (heroTopCountry) {
+    heroTopCountry.textContent = topCountryText;
+  }
   document.getElementById("index-data-model").textContent = `${cities.length} cities, ${countries.length} countries, static JSON contract with raw metrics + derived scores.`;
 }
 
