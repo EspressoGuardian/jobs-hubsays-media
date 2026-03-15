@@ -35,6 +35,20 @@ const DEFAULT_PREFERENCES = {
   hidePersistent: false,
 };
 
+const URL_FILTER_KEYS = ["country", "city", "language", "mode", "category", "visa"];
+const PUBLIC_CANONICAL_BASE = "https://jobs.hubsays.media";
+const DEFAULT_PUBLIC_VIEW = "netherlands";
+const PUBLIC_VIEW_TO_PRESET = {
+  netherlands: "nl-live-work",
+  "netherlands-english": "nl-english",
+  "netherlands-visa": "nl-visa",
+  "europe-english": "eu-english",
+  expat: "expat",
+  "ai-radar": "ai-radar",
+  "italy-italian": "it-italian",
+  "germany-german": "de-german",
+};
+
 const filters = { ...DEFAULT_FILTERS };
 const weights = { ...DEFAULT_WEIGHTS };
 const preferences = { ...DEFAULT_PREFERENCES };
@@ -1147,42 +1161,73 @@ function updateGuidedSummary(message = "") {
     root.textContent = message;
     return;
   }
-  root.textContent = `Current setup: ${filters.country === "All" ? "all countries" : filters.country}, ${filters.city === "All" ? "all visible cities" : filters.city}, ${filters.language.toLowerCase()} language, ${filters.mode.toLowerCase()} work mode, ${filters.category === "All" ? "all role lenses" : filters.category}, visa signal ${filters.visa === "All" ? "any" : filters.visa}. This setup and the Decision Desk stay local unless you share the URL.`;
+  root.textContent = `Current setup: ${filters.country === "All" ? "all countries" : filters.country}, ${filters.city === "All" ? "all visible cities" : filters.city}, ${filters.language.toLowerCase()} language, ${filters.mode.toLowerCase()} work mode, ${filters.category === "All" ? "all role lenses" : filters.category}, visa signal ${filters.visa === "All" ? "any" : filters.visa}. Share links only carry public filter state. Salary target, remote preference, freshness, persistent-role hiding, and the selected role stay local.`;
 }
 
-function buildQueryState() {
-  const params = new URLSearchParams();
-  if (activePreset !== "all") {
-    params.set("preset", activePreset);
+function normalizePublicView(raw) {
+  const key = String(raw || "").trim().toLowerCase();
+  return Object.prototype.hasOwnProperty.call(PUBLIC_VIEW_TO_PRESET, key) ? key : "";
+}
+
+function activePublicView() {
+  for (const [view, presetName] of Object.entries(PUBLIC_VIEW_TO_PRESET)) {
+    const preset = presets[presetName];
+    if (preset && URL_FILTER_KEYS.every((key) => filters[key] === preset[key])) {
+      return view;
+    }
   }
-  Object.entries(filters).forEach(([key, value]) => {
-    if (value !== DEFAULT_FILTERS[key]) {
+  return "";
+}
+
+function baseFiltersForView(view) {
+  const normalized = normalizePublicView(view);
+  if (!normalized) {
+    return DEFAULT_FILTERS;
+  }
+  return presets[PUBLIC_VIEW_TO_PRESET[normalized]] || DEFAULT_FILTERS;
+}
+
+function buildPublicQueryState() {
+  const params = new URLSearchParams();
+  const view = activePublicView();
+  const baseline = baseFiltersForView(view);
+  if (view && view !== DEFAULT_PUBLIC_VIEW) {
+    params.set("view", view);
+  }
+  URL_FILTER_KEYS.forEach((key) => {
+    const value = filters[key];
+    if (value !== (baseline[key] || DEFAULT_FILTERS[key])) {
       params.set(key, value);
     }
   });
-  if (preferences.salaryTarget !== DEFAULT_PREFERENCES.salaryTarget) {
-    params.set("salary", String(preferences.salaryTarget));
-  }
-  if (preferences.remotePreference !== DEFAULT_PREFERENCES.remotePreference) {
-    params.set("remotePreference", preferences.remotePreference);
-  }
-  if (preferences.freshnessWindow !== DEFAULT_PREFERENCES.freshnessWindow) {
-    params.set("freshness", preferences.freshnessWindow);
-  }
-  if (preferences.visaRequired) {
-    params.set("visaRequired", "1");
-  }
-  if (preferences.hidePersistent) {
-    params.set("hidePersistent", "1");
-  }
-  if (activeId) {
-    params.set("active", activeId);
-  }
   return params;
 }
 
+function canonicalUrlForState() {
+  const params = new URLSearchParams();
+  const view = activePublicView();
+  if (view && view !== DEFAULT_PUBLIC_VIEW) {
+    params.set("view", view);
+  }
+  const query = params.toString();
+  return `${PUBLIC_CANONICAL_BASE}/${query ? `?${query}` : ""}`;
+}
+
+function updateSearchMeta(params = buildPublicQueryState()) {
+  const robots = document.getElementById("robots-meta");
+  const canonical = document.getElementById("canonical-link");
+  if (canonical) {
+    canonical.setAttribute("href", canonicalUrlForState());
+  }
+  if (robots) {
+    const indexable = [...params.keys()].every((key) => key === "view");
+    robots.setAttribute("content", indexable ? "index,follow" : "noindex,follow");
+  }
+}
+
 function updateUrlState() {
-  const params = buildQueryState();
+  const params = buildPublicQueryState();
+  updateSearchMeta(params);
   const query = params.toString();
   const next = `${window.location.pathname}${query ? `?${query}` : ""}`;
   window.history.replaceState({ path: next }, "", next);
@@ -1190,38 +1235,41 @@ function updateUrlState() {
 
 function loadStateFromUrl() {
   const params = new URLSearchParams(window.location.search);
-  const preset = params.get("preset");
-  if (preset && presets[preset]) {
-    activePreset = preset;
-    Object.assign(filters, presets[preset]);
+  const publicView = normalizePublicView(params.get("view"));
+  const legacyPreset = params.get("preset");
+  const presetName = publicView
+    ? PUBLIC_VIEW_TO_PRESET[publicView]
+    : (legacyPreset && presets[legacyPreset] ? legacyPreset : "");
+  if (presetName) {
+    activePreset = presetName;
+    Object.assign(filters, presets[presetName]);
   }
-  ["country", "city", "language", "mode", "category", "visa"].forEach((key) => {
+  URL_FILTER_KEYS.forEach((key) => {
     const value = params.get(key);
     if (value) {
       filters[key] = value;
     }
   });
-  const salary = Number(params.get("salary") || "");
-  if (salary) {
-    preferences.salaryTarget = salary;
+}
+
+function sanitizeFilterState() {
+  const allowedValues = {
+    country: new Set(optionsFor("country")),
+    language: new Set(optionsFor("language")),
+    mode: new Set(optionsFor("mode")),
+    category: new Set(optionsFor("category")),
+    visa: new Set(optionsFor("visa")),
+  };
+  ["country", "language", "mode", "category", "visa"].forEach((key) => {
+    if (!allowedValues[key].has(filters[key])) {
+      filters[key] = DEFAULT_FILTERS[key];
+    }
+  });
+  if (!cityOptionsForCountry(filters.country).includes(filters.city)) {
+    filters.city = "All";
   }
-  const remotePreference = params.get("remotePreference");
-  if (remotePreference) {
-    preferences.remotePreference = remotePreference;
-  }
-  const freshness = params.get("freshness");
-  if (freshness) {
-    preferences.freshnessWindow = freshness;
-  }
-  if (params.has("visaRequired")) {
-    preferences.visaRequired = params.get("visaRequired") === "1";
-  }
-  if (params.has("hidePersistent")) {
-    preferences.hidePersistent = params.get("hidePersistent") === "1";
-  }
-  if (params.has("active")) {
-    activeId = params.get("active") || "";
-  }
+  const matchedView = activePublicView();
+  activePreset = matchedView ? PUBLIC_VIEW_TO_PRESET[matchedView] : "all";
 }
 
 async function copyShareableUrl() {
@@ -1229,7 +1277,7 @@ async function copyShareableUrl() {
   const url = window.location.href;
   try {
     await navigator.clipboard.writeText(url);
-    updateGuidedSummary("Shareable link copied. Anyone opening it will see this filtered view.");
+    updateGuidedSummary("Shareable public link copied. It carries only safe filter state and leaves local-only preferences behind.");
   } catch (_error) {
     updateGuidedSummary(`Shareable link ready: ${url}`);
   }
@@ -1284,14 +1332,14 @@ async function main() {
   loadPreferences();
   loadFilters();
   loadStateFromUrl();
-  syncWeightControls();
-  syncPreferenceControls();
-
   populateSelect("country-filter", optionsFor("country"));
   populateSelect("language-filter", optionsFor("language"));
   populateSelect("mode-filter", optionsFor("mode"));
   populateSelect("category-filter", optionsFor("category"));
   populateSelect("visa-filter", optionsFor("visa"));
+  sanitizeFilterState();
+  syncWeightControls();
+  syncPreferenceControls();
   populateCompareSelects();
   renderIndexSummary();
   syncSelects();
@@ -1416,6 +1464,7 @@ async function main() {
     Object.assign(filters, DEFAULT_FILTERS);
     Object.assign(preferences, DEFAULT_PREFERENCES);
     loadStateFromUrl();
+    sanitizeFilterState();
     syncPreferenceControls();
     syncSelects();
     render();
