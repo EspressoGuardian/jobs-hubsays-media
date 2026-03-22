@@ -8,6 +8,7 @@
   Cross-Origin-Resource-Policy: same-site
   Cross-Origin-Opener-Policy: same-origin
   Origin-Agent-Cluster: ?1
+  X-Robots-Tag: noindex, nofollow, noarchive
   Permissions-Policy: camera=(), geolocation=(), microphone=(), payment=(), usb=()
   Cache-Control: public, max-age=300, stale-while-revalidate=86400
 

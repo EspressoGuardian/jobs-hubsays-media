@@ -1,27 +1,12 @@
 # jobs-hubsays-media
 
-Public beta for the Hubsays Live + Work Map.
+Archived static beta for the former Hubsays Live + Work Map.
 
-Live URL:
-- `https://espressoguardian.github.io/jobs-hubsays-media/`
+Current public posture:
+- parked archive
+- no active feature work
+- root domain retained as an archive marker
+- public focus moved to `https://hubsays.com/` and `https://brendan-davies.dev/`
 
-Planned custom domain:
-- `jobs.hubsays.media`
-
-Current posture:
-- public beta
-- static site
-- privacy-first
-- affiliate-first
-- no user accounts
-- no CV uploads
-- direct-source links only
-
-Core entry points:
-- `index.html`
-- `index-2026.html`
-- `pages/methodology.html`
-- `pages/data-sources.html`
-- `pages/transparency.html`
-- `pages/privacy.html`
-- `pages/affiliate-disclosure.html`
+Primary file:
+- `index.html` archive notice
